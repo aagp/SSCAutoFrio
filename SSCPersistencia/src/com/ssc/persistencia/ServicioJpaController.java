@@ -1,6 +1,6 @@
 //<editor-fold defaultstate="collapsed" desc=" License ">
 /*
- * @(#)ServicioJpaController.java Created on 10/10/2014, 07:54:46 PM
+ * @(#)ServicioJpaController.java Created on 12/10/2014, 09:12:59 AM
  *
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
@@ -21,21 +21,18 @@
 
 package com.ssc.persistencia;
 
-import com.ssc.objetosnegocio.Detalleorden;
-import com.ssc.objetosnegocio.Servicio;
-import com.ssc.excepciones.IllegalOrphanException;
-import com.ssc.excepciones.NonexistentEntityException;
-import com.ssc.excepciones.PreexistingEntityException;
+import com.ssc.excepciones.*;
 import java.io.Serializable;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
+import com.ssc.objetosnegocio.Detalleorden;
+import com.ssc.objetosnegocio.Servicio;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 
 /**
  * Class ServicioJpaController
@@ -45,16 +42,17 @@ import javax.persistence.EntityManagerFactory;
  */
 public class ServicioJpaController implements Serializable {
 
-    public ServicioJpaController(EntityManagerFactory emf) {
-        this.emf = emf;
-    }
     private EntityManagerFactory emf = null;
+    
+    public ServicioJpaController() {
+        emf = Persistence.createEntityManagerFactory("SSCAutoFrioPU");
+    }
 
     public EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
 
-    public void create(Servicio servicio) throws PreexistingEntityException, Exception {
+    public void create(Servicio servicio) {
         if (servicio.getDetalleordenCollection() == null) {
             servicio.setDetalleordenCollection(new ArrayList<Detalleorden>());
         }
@@ -64,7 +62,7 @@ public class ServicioJpaController implements Serializable {
             em.getTransaction().begin();
             Collection<Detalleorden> attachedDetalleordenCollection = new ArrayList<Detalleorden>();
             for (Detalleorden detalleordenCollectionDetalleordenToAttach : servicio.getDetalleordenCollection()) {
-                detalleordenCollectionDetalleordenToAttach = em.getReference(detalleordenCollectionDetalleordenToAttach.getClass(), detalleordenCollectionDetalleordenToAttach.getIdDetOrden());
+                detalleordenCollectionDetalleordenToAttach = em.getReference(detalleordenCollectionDetalleordenToAttach.getClass(), detalleordenCollectionDetalleordenToAttach.getIdDetalle());
                 attachedDetalleordenCollection.add(detalleordenCollectionDetalleordenToAttach);
             }
             servicio.setDetalleordenCollection(attachedDetalleordenCollection);
@@ -79,11 +77,6 @@ public class ServicioJpaController implements Serializable {
                 }
             }
             em.getTransaction().commit();
-        } catch (Exception ex) {
-            if (findServicio(servicio.getIdServicio()) != null) {
-                throw new PreexistingEntityException("Servicio " + servicio + " already exists.", ex);
-            }
-            throw ex;
         } finally {
             if (em != null) {
                 em.close();
@@ -113,7 +106,7 @@ public class ServicioJpaController implements Serializable {
             }
             Collection<Detalleorden> attachedDetalleordenCollectionNew = new ArrayList<Detalleorden>();
             for (Detalleorden detalleordenCollectionNewDetalleordenToAttach : detalleordenCollectionNew) {
-                detalleordenCollectionNewDetalleordenToAttach = em.getReference(detalleordenCollectionNewDetalleordenToAttach.getClass(), detalleordenCollectionNewDetalleordenToAttach.getIdDetOrden());
+                detalleordenCollectionNewDetalleordenToAttach = em.getReference(detalleordenCollectionNewDetalleordenToAttach.getClass(), detalleordenCollectionNewDetalleordenToAttach.getIdDetalle());
                 attachedDetalleordenCollectionNew.add(detalleordenCollectionNewDetalleordenToAttach);
             }
             detalleordenCollectionNew = attachedDetalleordenCollectionNew;
@@ -190,9 +183,7 @@ public class ServicioJpaController implements Serializable {
     private List<Servicio> findServicioEntities(boolean all, int maxResults, int firstResult) {
         EntityManager em = getEntityManager();
         try {
-            CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            cq.select(cq.from(Servicio.class));
-            Query q = em.createQuery(cq);
+            Query q = em.createQuery("select object(o) from Servicio as o");
             if (!all) {
                 q.setMaxResults(maxResults);
                 q.setFirstResult(firstResult);
@@ -215,10 +206,7 @@ public class ServicioJpaController implements Serializable {
     public int getServicioCount() {
         EntityManager em = getEntityManager();
         try {
-            CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            Root<Servicio> rt = cq.from(Servicio.class);
-            cq.select(em.getCriteriaBuilder().count(rt));
-            Query q = em.createQuery(cq);
+            Query q = em.createQuery("select count(o) from Servicio as o");
             return ((Long) q.getSingleResult()).intValue();
         } finally {
             em.close();

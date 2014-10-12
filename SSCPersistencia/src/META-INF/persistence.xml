@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <persistence version="1.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd">
-  <persistence-unit name="SSCAutoFrio?zeroDateTimeBehavior=convertToNullPU" transaction-type="RESOURCE_LOCAL">
+  <persistence-unit name="SSCAutoFrioPU" transaction-type="RESOURCE_LOCAL">
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
-    <class>com.ssc.persistencia.Servicio</class>
+    <class>com.ssc.objetosnegocio.Cliente</class>
+    <class>com.ssc.objetosnegocio.Detalleorden</class>
+    <class>com.ssc.objetosnegocio.Orden</class>
+    <class>com.ssc.objetosnegocio.Servicio</class>
+    <class>com.ssc.objetosnegocio.Vehiculo</class>
+    <class>com.ssc.objetosnegocio.Tiene</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/SSCAutoFrio?zeroDateTimeBehavior=convertToNull"/>
       <property name="javax.persistence.jdbc.password" value="root"/>

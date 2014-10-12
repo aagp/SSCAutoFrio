@@ -1,6 +1,6 @@
 //<editor-fold defaultstate="collapsed" desc=" License ">
 /*
- * @(#)Vehiculo.java Created on 10/10/2014, 07:54:10 PM
+ * @(#)Vehiculo.java Created on 12/10/2014, 09:10:27 AM
  *
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
@@ -68,12 +68,12 @@ public class Vehiculo implements Serializable {
     @Column(name = "Modelo")
     private String modelo;
     @Column(name = "Cilindros")
-    private Integer cilindros;
+    private String cilindros;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "Motor")
-    private Float motor;
+    private Double motor;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idVehiculo")
-    private Collection<Cliente> clienteCollection;
+    private Collection<Tiene> tieneCollection;
 
     public Vehiculo() {
     }
@@ -114,29 +114,29 @@ public class Vehiculo implements Serializable {
         this.modelo = modelo;
     }
 
-    public Integer getCilindros() {
+    public String getCilindros() {
         return cilindros;
     }
 
-    public void setCilindros(Integer cilindros) {
+    public void setCilindros(String cilindros) {
         this.cilindros = cilindros;
     }
 
-    public Float getMotor() {
+    public Double getMotor() {
         return motor;
     }
 
-    public void setMotor(Float motor) {
+    public void setMotor(Double motor) {
         this.motor = motor;
     }
 
     @XmlTransient
-    public Collection<Cliente> getClienteCollection() {
-        return clienteCollection;
+    public Collection<Tiene> getTieneCollection() {
+        return tieneCollection;
     }
 
-    public void setClienteCollection(Collection<Cliente> clienteCollection) {
-        this.clienteCollection = clienteCollection;
+    public void setTieneCollection(Collection<Tiene> tieneCollection) {
+        this.tieneCollection = tieneCollection;
     }
 
     @Override

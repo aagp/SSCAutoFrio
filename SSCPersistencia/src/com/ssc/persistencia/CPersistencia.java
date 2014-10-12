@@ -18,8 +18,11 @@
  * Copyright (C) 2014 Alan García. All rights reserved.
  */
 //</editor-fold>
-
 package com.ssc.persistencia;
+
+import com.ssc.excepciones.*;
+import com.ssc.objetosnegocio.*;
+import java.util.List;
 
 /**
  * Class CPersistencia
@@ -29,4 +32,141 @@ package com.ssc.persistencia;
  */
 public class CPersistencia {
 
+    //<editor-fold defaultstate="collapsed" desc=" Variables ">    
+    ClienteJpaController cjc;
+    DetalleordenJpaController djc;
+    OrdenJpaController ojc;
+    ServicioJpaController sjc;
+    VehiculoJpaController vjc;
+    TieneJpaController tjc;
+    //</editor-fold>
+
+    /**
+     * Constructor por ausencia
+     */
+    protected CPersistencia() {
+    }
+
+    //<editor-fold defaultstate="collapsed" desc=" Orden ">    
+    protected Orden registrarOrden(Orden orden) throws PreexistingEntityException, Exception {
+        ojc = new OrdenJpaController();
+        ojc.create(orden);
+        return orden;
+    }
+
+    protected Orden actulizarOrden(Orden orden) throws NonexistentEntityException, Exception {
+        ojc = new OrdenJpaController();
+        ojc.edit(orden);
+        return orden;
+    }
+
+    protected Orden eliminarOrden(Orden orden) throws NonexistentEntityException, Exception {
+        ojc = new OrdenJpaController();
+        ojc.destroy(orden.getIdOrden());
+        return orden;
+    }
+
+    protected Orden buscarOrden(Orden orden) throws NonexistentEntityException {
+        ojc = new OrdenJpaController();
+        return ojc.findOrden(orden.getIdOrden());
+    }
+
+    protected List<Orden> listaOrdenes() throws NonexistentEntityException {
+        ojc = new OrdenJpaController();
+        return ojc.findOrdenEntities();
+    }
+    //</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc=" Cliente ">
+    protected Cliente agregarCliente(Cliente cliente) throws PreexistingEntityException, Exception {
+        cjc = new ClienteJpaController();
+        cjc.create(cliente);
+        return cliente;
+    }
+
+    protected Cliente actualizarCliente(Cliente cliente) throws NonexistentEntityException, Exception {
+        cjc = new ClienteJpaController();
+        cjc.edit(cliente);
+        return cliente;
+    }
+
+    protected Cliente eliminarCliente(Cliente cliente) throws NonexistentEntityException, Exception {
+        cjc = new ClienteJpaController();
+        cjc.destroy(cliente.getIdCliente());
+        return cliente;
+    }
+
+    protected Cliente buscarCliente(Cliente cliente) throws NonexistentEntityException {
+        cjc = new ClienteJpaController();
+        return cjc.findCliente(cliente.getIdCliente());
+    }
+
+    protected List<Cliente> listaClientes() throws NonexistentEntityException {
+        cjc = new ClienteJpaController();
+        return cjc.findClienteEntities();
+    }
+    //</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc=" Vehiculo ">
+    protected Vehiculo agregarVehiculo(Vehiculo vehiculo) throws PreexistingEntityException, Exception {
+        vjc = new VehiculoJpaController();
+        vjc.create(vehiculo);
+        return vehiculo;
+    }
+
+    protected Vehiculo actualizarVehiculo(Vehiculo vehiculo) throws NonexistentEntityException, Exception {
+        vjc = new VehiculoJpaController();
+        vjc.edit(vehiculo);
+        return vehiculo;
+    }
+
+    protected Vehiculo eliminarVehiculo(Vehiculo vehiculo) throws NonexistentEntityException, Exception {
+        vjc = new VehiculoJpaController();
+        vjc.destroy(vehiculo.getIdVehiculo());
+        return vehiculo;
+    }
+
+    protected List<Vehiculo> listaVehiculos() throws NonexistentEntityException {
+        vjc = new VehiculoJpaController();
+        return vjc.findVehiculoEntities();
+    }
+    //</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc=" Servicio ">
+    protected Servicio agregarServicio(Servicio servicio) throws PreexistingEntityException, Exception {
+        sjc = new ServicioJpaController();
+        sjc.create(servicio);
+        return servicio;
+    }
+
+    protected Servicio actualizarServicio(Servicio servicio) throws NonexistentEntityException, Exception {
+        sjc = new ServicioJpaController();
+        sjc.edit(servicio);
+        return servicio;
+    }
+
+    protected Servicio eliminarServicio(Servicio servicio) throws NonexistentEntityException, Exception {
+        sjc = new ServicioJpaController();
+        sjc.destroy(servicio.getIdServicio());
+        return servicio;
+    }    
+    protected List<Servicio> listaServicios() throws NonexistentEntityException {
+        sjc = new ServicioJpaController();
+        return sjc.findServicioEntities();
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc=" Tiene ">    
+    protected List<Tiene> getVehiculosPorCliente(Cliente cliente) throws NonexistentEntityException {
+        tjc = new TieneJpaController();
+        return tjc.getVehiculosPorCliente(cliente);
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc=" Detalleorden ">
+    protected List<Detalleorden> getDetalleOrden(Orden orden) throws NonexistentEntityException {
+        djc = new DetalleordenJpaController();
+        return djc.getDetalleOrden(orden);
+    }
+    //</editor-fold>
 }

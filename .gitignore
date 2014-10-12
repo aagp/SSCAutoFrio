@@ -2,3 +2,15 @@
 /SSCPersistencia/nbproject/private/
 /SSCExcepciones/nbproject/private/
 /SSCInterfaces/nbproject/private/
+/SSCNegocio/nbproject/private/
+/SSCInterfazNegocio/nbproject/private/
+/SSCNegocio/build/
+/SSCExcepciones/build/
+/SSCExcepciones/dist/
+/SSCInterfazNegocio/build/
+/SSCObjetosNegocio/build/
+/SSCObjetosNegocio/dist/
+/SSCInterfazNegocio/dist/
+/SSCInterfazPersistencia/nbproject/private/
+/SSCPersistencia/build/
+/SSCInterfazPersistencia/build/

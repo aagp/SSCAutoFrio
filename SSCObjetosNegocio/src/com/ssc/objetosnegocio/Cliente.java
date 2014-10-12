@@ -1,6 +1,6 @@
 //<editor-fold defaultstate="collapsed" desc=" License ">
 /*
- * @(#)Cliente.java Created on 10/10/2014, 07:54:10 PM
+ * @(#)Cliente.java Created on 12/10/2014, 09:10:27 AM
  *
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
@@ -28,8 +28,6 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -102,9 +100,8 @@ public class Cliente implements Serializable {
     private String email;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idCliente")
     private Collection<Orden> ordenCollection;
-    @JoinColumn(name = "idVehiculo", referencedColumnName = "idVehiculo")
-    @ManyToOne(optional = false)
-    private Vehiculo idVehiculo;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idCliente")
+    private Collection<Tiene> tieneCollection;
 
     public Cliente() {
     }
@@ -250,12 +247,13 @@ public class Cliente implements Serializable {
         this.ordenCollection = ordenCollection;
     }
 
-    public Vehiculo getIdVehiculo() {
-        return idVehiculo;
+    @XmlTransient
+    public Collection<Tiene> getTieneCollection() {
+        return tieneCollection;
     }
 
-    public void setIdVehiculo(Vehiculo idVehiculo) {
-        this.idVehiculo = idVehiculo;
+    public void setTieneCollection(Collection<Tiene> tieneCollection) {
+        this.tieneCollection = tieneCollection;
     }
 
     @Override

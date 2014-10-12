@@ -1,6 +1,6 @@
 //<editor-fold defaultstate="collapsed" desc=" License ">
 /*
- * @(#)VehiculoJpaController.java Created on 10/10/2014, 07:54:46 PM
+ * @(#)VehiculoJpaController.java Created on 12/10/2014, 09:12:59 AM
  *
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
@@ -21,20 +21,18 @@
 
 package com.ssc.persistencia;
 
-import com.ssc.objetosnegocio.Cliente;
-import com.ssc.objetosnegocio.Vehiculo;
-import com.ssc.excepciones.IllegalOrphanException;
-import com.ssc.excepciones.NonexistentEntityException;
+import com.ssc.excepciones.*;
 import java.io.Serializable;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
+import com.ssc.objetosnegocio.Tiene;
+import com.ssc.objetosnegocio.Vehiculo;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 
 /**
  * Class VehiculoJpaController
@@ -44,37 +42,38 @@ import javax.persistence.EntityManagerFactory;
  */
 public class VehiculoJpaController implements Serializable {
 
-    public VehiculoJpaController(EntityManagerFactory emf) {
-        this.emf = emf;
-    }
     private EntityManagerFactory emf = null;
+    
+    public VehiculoJpaController() {
+        emf = Persistence.createEntityManagerFactory("SSCAutoFrioPU");
+    }
 
     public EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
 
     public void create(Vehiculo vehiculo) {
-        if (vehiculo.getClienteCollection() == null) {
-            vehiculo.setClienteCollection(new ArrayList<Cliente>());
+        if (vehiculo.getTieneCollection() == null) {
+            vehiculo.setTieneCollection(new ArrayList<Tiene>());
         }
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Collection<Cliente> attachedClienteCollection = new ArrayList<Cliente>();
-            for (Cliente clienteCollectionClienteToAttach : vehiculo.getClienteCollection()) {
-                clienteCollectionClienteToAttach = em.getReference(clienteCollectionClienteToAttach.getClass(), clienteCollectionClienteToAttach.getIdCliente());
-                attachedClienteCollection.add(clienteCollectionClienteToAttach);
+            Collection<Tiene> attachedTieneCollection = new ArrayList<Tiene>();
+            for (Tiene tieneCollectionTieneToAttach : vehiculo.getTieneCollection()) {
+                tieneCollectionTieneToAttach = em.getReference(tieneCollectionTieneToAttach.getClass(), tieneCollectionTieneToAttach.getIdTiene());
+                attachedTieneCollection.add(tieneCollectionTieneToAttach);
             }
-            vehiculo.setClienteCollection(attachedClienteCollection);
+            vehiculo.setTieneCollection(attachedTieneCollection);
             em.persist(vehiculo);
-            for (Cliente clienteCollectionCliente : vehiculo.getClienteCollection()) {
-                Vehiculo oldIdVehiculoOfClienteCollectionCliente = clienteCollectionCliente.getIdVehiculo();
-                clienteCollectionCliente.setIdVehiculo(vehiculo);
-                clienteCollectionCliente = em.merge(clienteCollectionCliente);
-                if (oldIdVehiculoOfClienteCollectionCliente != null) {
-                    oldIdVehiculoOfClienteCollectionCliente.getClienteCollection().remove(clienteCollectionCliente);
-                    oldIdVehiculoOfClienteCollectionCliente = em.merge(oldIdVehiculoOfClienteCollectionCliente);
+            for (Tiene tieneCollectionTiene : vehiculo.getTieneCollection()) {
+                Vehiculo oldIdVehiculoOfTieneCollectionTiene = tieneCollectionTiene.getIdVehiculo();
+                tieneCollectionTiene.setIdVehiculo(vehiculo);
+                tieneCollectionTiene = em.merge(tieneCollectionTiene);
+                if (oldIdVehiculoOfTieneCollectionTiene != null) {
+                    oldIdVehiculoOfTieneCollectionTiene.getTieneCollection().remove(tieneCollectionTiene);
+                    oldIdVehiculoOfTieneCollectionTiene = em.merge(oldIdVehiculoOfTieneCollectionTiene);
                 }
             }
             em.getTransaction().commit();
@@ -91,36 +90,36 @@ public class VehiculoJpaController implements Serializable {
             em = getEntityManager();
             em.getTransaction().begin();
             Vehiculo persistentVehiculo = em.find(Vehiculo.class, vehiculo.getIdVehiculo());
-            Collection<Cliente> clienteCollectionOld = persistentVehiculo.getClienteCollection();
-            Collection<Cliente> clienteCollectionNew = vehiculo.getClienteCollection();
+            Collection<Tiene> tieneCollectionOld = persistentVehiculo.getTieneCollection();
+            Collection<Tiene> tieneCollectionNew = vehiculo.getTieneCollection();
             List<String> illegalOrphanMessages = null;
-            for (Cliente clienteCollectionOldCliente : clienteCollectionOld) {
-                if (!clienteCollectionNew.contains(clienteCollectionOldCliente)) {
+            for (Tiene tieneCollectionOldTiene : tieneCollectionOld) {
+                if (!tieneCollectionNew.contains(tieneCollectionOldTiene)) {
                     if (illegalOrphanMessages == null) {
                         illegalOrphanMessages = new ArrayList<String>();
                     }
-                    illegalOrphanMessages.add("You must retain Cliente " + clienteCollectionOldCliente + " since its idVehiculo field is not nullable.");
+                    illegalOrphanMessages.add("You must retain Tiene " + tieneCollectionOldTiene + " since its idVehiculo field is not nullable.");
                 }
             }
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
             }
-            Collection<Cliente> attachedClienteCollectionNew = new ArrayList<Cliente>();
-            for (Cliente clienteCollectionNewClienteToAttach : clienteCollectionNew) {
-                clienteCollectionNewClienteToAttach = em.getReference(clienteCollectionNewClienteToAttach.getClass(), clienteCollectionNewClienteToAttach.getIdCliente());
-                attachedClienteCollectionNew.add(clienteCollectionNewClienteToAttach);
+            Collection<Tiene> attachedTieneCollectionNew = new ArrayList<Tiene>();
+            for (Tiene tieneCollectionNewTieneToAttach : tieneCollectionNew) {
+                tieneCollectionNewTieneToAttach = em.getReference(tieneCollectionNewTieneToAttach.getClass(), tieneCollectionNewTieneToAttach.getIdTiene());
+                attachedTieneCollectionNew.add(tieneCollectionNewTieneToAttach);
             }
-            clienteCollectionNew = attachedClienteCollectionNew;
-            vehiculo.setClienteCollection(clienteCollectionNew);
+            tieneCollectionNew = attachedTieneCollectionNew;
+            vehiculo.setTieneCollection(tieneCollectionNew);
             vehiculo = em.merge(vehiculo);
-            for (Cliente clienteCollectionNewCliente : clienteCollectionNew) {
-                if (!clienteCollectionOld.contains(clienteCollectionNewCliente)) {
-                    Vehiculo oldIdVehiculoOfClienteCollectionNewCliente = clienteCollectionNewCliente.getIdVehiculo();
-                    clienteCollectionNewCliente.setIdVehiculo(vehiculo);
-                    clienteCollectionNewCliente = em.merge(clienteCollectionNewCliente);
-                    if (oldIdVehiculoOfClienteCollectionNewCliente != null && !oldIdVehiculoOfClienteCollectionNewCliente.equals(vehiculo)) {
-                        oldIdVehiculoOfClienteCollectionNewCliente.getClienteCollection().remove(clienteCollectionNewCliente);
-                        oldIdVehiculoOfClienteCollectionNewCliente = em.merge(oldIdVehiculoOfClienteCollectionNewCliente);
+            for (Tiene tieneCollectionNewTiene : tieneCollectionNew) {
+                if (!tieneCollectionOld.contains(tieneCollectionNewTiene)) {
+                    Vehiculo oldIdVehiculoOfTieneCollectionNewTiene = tieneCollectionNewTiene.getIdVehiculo();
+                    tieneCollectionNewTiene.setIdVehiculo(vehiculo);
+                    tieneCollectionNewTiene = em.merge(tieneCollectionNewTiene);
+                    if (oldIdVehiculoOfTieneCollectionNewTiene != null && !oldIdVehiculoOfTieneCollectionNewTiene.equals(vehiculo)) {
+                        oldIdVehiculoOfTieneCollectionNewTiene.getTieneCollection().remove(tieneCollectionNewTiene);
+                        oldIdVehiculoOfTieneCollectionNewTiene = em.merge(oldIdVehiculoOfTieneCollectionNewTiene);
                     }
                 }
             }
@@ -154,12 +153,12 @@ public class VehiculoJpaController implements Serializable {
                 throw new NonexistentEntityException("The vehiculo with id " + id + " no longer exists.", enfe);
             }
             List<String> illegalOrphanMessages = null;
-            Collection<Cliente> clienteCollectionOrphanCheck = vehiculo.getClienteCollection();
-            for (Cliente clienteCollectionOrphanCheckCliente : clienteCollectionOrphanCheck) {
+            Collection<Tiene> tieneCollectionOrphanCheck = vehiculo.getTieneCollection();
+            for (Tiene tieneCollectionOrphanCheckTiene : tieneCollectionOrphanCheck) {
                 if (illegalOrphanMessages == null) {
                     illegalOrphanMessages = new ArrayList<String>();
                 }
-                illegalOrphanMessages.add("This Vehiculo (" + vehiculo + ") cannot be destroyed since the Cliente " + clienteCollectionOrphanCheckCliente + " in its clienteCollection field has a non-nullable idVehiculo field.");
+                illegalOrphanMessages.add("This Vehiculo (" + vehiculo + ") cannot be destroyed since the Tiene " + tieneCollectionOrphanCheckTiene + " in its tieneCollection field has a non-nullable idVehiculo field.");
             }
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
@@ -184,9 +183,7 @@ public class VehiculoJpaController implements Serializable {
     private List<Vehiculo> findVehiculoEntities(boolean all, int maxResults, int firstResult) {
         EntityManager em = getEntityManager();
         try {
-            CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            cq.select(cq.from(Vehiculo.class));
-            Query q = em.createQuery(cq);
+            Query q = em.createQuery("select object(o) from Vehiculo as o");
             if (!all) {
                 q.setMaxResults(maxResults);
                 q.setFirstResult(firstResult);
@@ -209,10 +206,7 @@ public class VehiculoJpaController implements Serializable {
     public int getVehiculoCount() {
         EntityManager em = getEntityManager();
         try {
-            CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            Root<Vehiculo> rt = cq.from(Vehiculo.class);
-            cq.select(em.getCriteriaBuilder().count(rt));
-            Query q = em.createQuery(cq);
+            Query q = em.createQuery("select count(o) from Vehiculo as o");
             return ((Long) q.getSingleResult()).intValue();
         } finally {
             em.close();

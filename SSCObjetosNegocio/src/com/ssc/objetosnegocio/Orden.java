@@ -1,6 +1,6 @@
 //<editor-fold defaultstate="collapsed" desc=" License ">
 /*
- * @(#)Orden.java Created on 10/10/2014, 07:54:10 PM
+ * @(#)Orden.java Created on 12/10/2014, 09:10:24 AM
  *
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
@@ -27,6 +27,8 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -58,6 +60,7 @@ import javax.xml.bind.annotation.XmlTransient;
 public class Orden implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "idOrden")
     private Integer idOrden;

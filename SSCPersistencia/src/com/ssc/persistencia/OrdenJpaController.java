@@ -1,6 +1,6 @@
 //<editor-fold defaultstate="collapsed" desc=" License ">
 /*
- * @(#)OrdenJpaController.java Created on 10/10/2014, 07:54:46 PM
+ * @(#)OrdenJpaController.java Created on 12/10/2014, 09:12:58 AM
  *
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
@@ -21,22 +21,19 @@
 
 package com.ssc.persistencia;
 
-import com.ssc.objetosnegocio.Cliente;
-import com.ssc.objetosnegocio.Detalleorden;
-import com.ssc.objetosnegocio.Orden;
-import com.ssc.excepciones.IllegalOrphanException;
-import com.ssc.excepciones.NonexistentEntityException;
-import com.ssc.excepciones.PreexistingEntityException;
+import com.ssc.excepciones.*;
 import java.io.Serializable;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
+import com.ssc.objetosnegocio.Cliente;
+import com.ssc.objetosnegocio.Detalleorden;
+import com.ssc.objetosnegocio.Orden;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 
 /**
  * Class OrdenJpaController
@@ -46,16 +43,17 @@ import javax.persistence.EntityManagerFactory;
  */
 public class OrdenJpaController implements Serializable {
 
-    public OrdenJpaController(EntityManagerFactory emf) {
-        this.emf = emf;
-    }
     private EntityManagerFactory emf = null;
+    
+    public OrdenJpaController() {
+        emf = Persistence.createEntityManagerFactory("SSCAutoFrioPU");
+    }
 
     public EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
 
-    public void create(Orden orden) throws PreexistingEntityException, Exception {
+    public void create(Orden orden) {
         if (orden.getDetalleordenCollection() == null) {
             orden.setDetalleordenCollection(new ArrayList<Detalleorden>());
         }
@@ -70,7 +68,7 @@ public class OrdenJpaController implements Serializable {
             }
             Collection<Detalleorden> attachedDetalleordenCollection = new ArrayList<Detalleorden>();
             for (Detalleorden detalleordenCollectionDetalleordenToAttach : orden.getDetalleordenCollection()) {
-                detalleordenCollectionDetalleordenToAttach = em.getReference(detalleordenCollectionDetalleordenToAttach.getClass(), detalleordenCollectionDetalleordenToAttach.getIdDetOrden());
+                detalleordenCollectionDetalleordenToAttach = em.getReference(detalleordenCollectionDetalleordenToAttach.getClass(), detalleordenCollectionDetalleordenToAttach.getIdDetalle());
                 attachedDetalleordenCollection.add(detalleordenCollectionDetalleordenToAttach);
             }
             orden.setDetalleordenCollection(attachedDetalleordenCollection);
@@ -89,11 +87,6 @@ public class OrdenJpaController implements Serializable {
                 }
             }
             em.getTransaction().commit();
-        } catch (Exception ex) {
-            if (findOrden(orden.getIdOrden()) != null) {
-                throw new PreexistingEntityException("Orden " + orden + " already exists.", ex);
-            }
-            throw ex;
         } finally {
             if (em != null) {
                 em.close();
@@ -129,7 +122,7 @@ public class OrdenJpaController implements Serializable {
             }
             Collection<Detalleorden> attachedDetalleordenCollectionNew = new ArrayList<Detalleorden>();
             for (Detalleorden detalleordenCollectionNewDetalleordenToAttach : detalleordenCollectionNew) {
-                detalleordenCollectionNewDetalleordenToAttach = em.getReference(detalleordenCollectionNewDetalleordenToAttach.getClass(), detalleordenCollectionNewDetalleordenToAttach.getIdDetOrden());
+                detalleordenCollectionNewDetalleordenToAttach = em.getReference(detalleordenCollectionNewDetalleordenToAttach.getClass(), detalleordenCollectionNewDetalleordenToAttach.getIdDetalle());
                 attachedDetalleordenCollectionNew.add(detalleordenCollectionNewDetalleordenToAttach);
             }
             detalleordenCollectionNew = attachedDetalleordenCollectionNew;
@@ -219,9 +212,7 @@ public class OrdenJpaController implements Serializable {
     private List<Orden> findOrdenEntities(boolean all, int maxResults, int firstResult) {
         EntityManager em = getEntityManager();
         try {
-            CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            cq.select(cq.from(Orden.class));
-            Query q = em.createQuery(cq);
+            Query q = em.createQuery("select object(o) from Orden as o");
             if (!all) {
                 q.setMaxResults(maxResults);
                 q.setFirstResult(firstResult);
@@ -244,14 +235,16 @@ public class OrdenJpaController implements Serializable {
     public int getOrdenCount() {
         EntityManager em = getEntityManager();
         try {
-            CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            Root<Orden> rt = cq.from(Orden.class);
-            cq.select(em.getCriteriaBuilder().count(rt));
-            Query q = em.createQuery(cq);
+            Query q = em.createQuery("select count(o) from Orden as o");
             return ((Long) q.getSingleResult()).intValue();
         } finally {
             em.close();
         }
     }
-
+    
+    public int lastInsert() {
+        String queryString = "select MAX(idOrden) from orden";
+        Query query = getEntityManager().createNativeQuery(queryString);
+        return ((Integer) query.getSingleResult()).intValue();
+    } 
 }

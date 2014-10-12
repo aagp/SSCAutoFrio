@@ -1,6 +1,6 @@
 //<editor-fold defaultstate="collapsed" desc=" License ">
 /*
- * @(#)DetalleordenJpaController.java Created on 10/10/2014, 07:54:46 PM
+ * @(#)DetalleordenJpaController.java Created on 12/10/2014, 09:12:58 AM
  *
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
@@ -21,19 +21,17 @@
 
 package com.ssc.persistencia;
 
-import com.ssc.objetosnegocio.Detalleorden;
-import com.ssc.objetosnegocio.Orden;
-import com.ssc.objetosnegocio.Servicio;
 import com.ssc.excepciones.NonexistentEntityException;
-import com.ssc.excepciones.PreexistingEntityException;
+import com.ssc.objetosnegocio.Detalleorden;
 import java.io.Serializable;
+import javax.persistence.Query;
+import javax.persistence.EntityNotFoundException;
+import com.ssc.objetosnegocio.Servicio;
+import com.ssc.objetosnegocio.Orden;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.Query;
-import javax.persistence.EntityNotFoundException;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
+import javax.persistence.Persistence;
 
 /**
  * Class DetalleordenJpaController
@@ -43,16 +41,17 @@ import javax.persistence.criteria.Root;
  */
 public class DetalleordenJpaController implements Serializable {
 
-    public DetalleordenJpaController(EntityManagerFactory emf) {
-        this.emf = emf;
-    }
     private EntityManagerFactory emf = null;
+    
+    public DetalleordenJpaController() {
+        emf = Persistence.createEntityManagerFactory("SSCAutoFrioPU");
+    }
 
     public EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
 
-    public void create(Detalleorden detalleorden) throws PreexistingEntityException, Exception {
+    public void create(Detalleorden detalleorden) {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -77,11 +76,6 @@ public class DetalleordenJpaController implements Serializable {
                 idOrden = em.merge(idOrden);
             }
             em.getTransaction().commit();
-        } catch (Exception ex) {
-            if (findDetalleorden(detalleorden.getIdDetOrden()) != null) {
-                throw new PreexistingEntityException("Detalleorden " + detalleorden + " already exists.", ex);
-            }
-            throw ex;
         } finally {
             if (em != null) {
                 em.close();
@@ -94,7 +88,7 @@ public class DetalleordenJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Detalleorden persistentDetalleorden = em.find(Detalleorden.class, detalleorden.getIdDetOrden());
+            Detalleorden persistentDetalleorden = em.find(Detalleorden.class, detalleorden.getIdDetalle());
             Servicio idServicioOld = persistentDetalleorden.getIdServicio();
             Servicio idServicioNew = detalleorden.getIdServicio();
             Orden idOrdenOld = persistentDetalleorden.getIdOrden();
@@ -128,7 +122,7 @@ public class DetalleordenJpaController implements Serializable {
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
-                Integer id = detalleorden.getIdDetOrden();
+                Integer id = detalleorden.getIdDetalle();
                 if (findDetalleorden(id) == null) {
                     throw new NonexistentEntityException("The detalleorden with id " + id + " no longer exists.");
                 }
@@ -149,7 +143,7 @@ public class DetalleordenJpaController implements Serializable {
             Detalleorden detalleorden;
             try {
                 detalleorden = em.getReference(Detalleorden.class, id);
-                detalleorden.getIdDetOrden();
+                detalleorden.getIdDetalle();
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The detalleorden with id " + id + " no longer exists.", enfe);
             }
@@ -183,9 +177,7 @@ public class DetalleordenJpaController implements Serializable {
     private List<Detalleorden> findDetalleordenEntities(boolean all, int maxResults, int firstResult) {
         EntityManager em = getEntityManager();
         try {
-            CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            cq.select(cq.from(Detalleorden.class));
-            Query q = em.createQuery(cq);
+            Query q = em.createQuery("select object(o) from Detalleorden as o");
             if (!all) {
                 q.setMaxResults(maxResults);
                 q.setFirstResult(firstResult);
@@ -208,14 +200,18 @@ public class DetalleordenJpaController implements Serializable {
     public int getDetalleordenCount() {
         EntityManager em = getEntityManager();
         try {
-            CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            Root<Detalleorden> rt = cq.from(Detalleorden.class);
-            cq.select(em.getCriteriaBuilder().count(rt));
-            Query q = em.createQuery(cq);
+            Query q = em.createQuery("select count(o) from Detalleorden as o");
             return ((Long) q.getSingleResult()).intValue();
         } finally {
             em.close();
         }
     }
 
+    public List<Detalleorden> getDetalleOrden(Orden idOrden) {
+        List results = getEntityManager().createNamedQuery("Detalleorden.findByOrden")
+                .setParameter("idOrden", idOrden)
+                .getResultList();
+        return results;
+    }    
+    
 }

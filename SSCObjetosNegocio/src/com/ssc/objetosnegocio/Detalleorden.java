@@ -1,6 +1,6 @@
 //<editor-fold defaultstate="collapsed" desc=" License ">
 /*
- * @(#)Detalleorden.java Created on 10/10/2014, 07:54:10 PM
+ * @(#)Detalleorden.java Created on 12/10/2014, 09:10:27 AM
  *
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
@@ -25,6 +25,8 @@ import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -44,16 +46,18 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Detalleorden.findAll", query = "SELECT d FROM Detalleorden d"),
-    @NamedQuery(name = "Detalleorden.findByIdDetOrden", query = "SELECT d FROM Detalleorden d WHERE d.idDetOrden = :idDetOrden"),
+    @NamedQuery(name = "Detalleorden.findByOrden", query = "SELECT d FROM Detalleorden d WHERE d.idOrden = :idOrden"),
+    @NamedQuery(name = "Detalleorden.findByIdDetalle", query = "SELECT d FROM Detalleorden d WHERE d.idDetalle = :idDetalle"),
     @NamedQuery(name = "Detalleorden.findByCantidad", query = "SELECT d FROM Detalleorden d WHERE d.cantidad = :cantidad"),
     @NamedQuery(name = "Detalleorden.findByPUnit", query = "SELECT d FROM Detalleorden d WHERE d.pUnit = :pUnit"),
     @NamedQuery(name = "Detalleorden.findByImporte", query = "SELECT d FROM Detalleorden d WHERE d.importe = :importe")})
 public class Detalleorden implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "idDetOrden")
-    private Integer idDetOrden;
+    @Column(name = "idDetalle")
+    private Integer idDetalle;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "Cantidad")
     private Double cantidad;
@@ -71,16 +75,24 @@ public class Detalleorden implements Serializable {
     public Detalleorden() {
     }
 
-    public Detalleorden(Integer idDetOrden) {
-        this.idDetOrden = idDetOrden;
+    public Detalleorden(Integer idDetalle) {
+        this.idDetalle = idDetalle;
     }
 
-    public Integer getIdDetOrden() {
-        return idDetOrden;
+    public Detalleorden(Orden idOrden, Servicio idServicio,double cantidad, double pUnit, double importe) {
+        this.idOrden = idOrden;
+        this.idServicio = idServicio;
+        this.cantidad = cantidad;
+        this.pUnit = pUnit;
+        this.importe = importe;
+    }
+    
+    public Integer getIdDetalle() {
+        return idDetalle;
     }
 
-    public void setIdDetOrden(Integer idDetOrden) {
-        this.idDetOrden = idDetOrden;
+    public void setIdDetalle(Integer idDetalle) {
+        this.idDetalle = idDetalle;
     }
 
     public Double getCantidad() {
@@ -126,7 +138,7 @@ public class Detalleorden implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (idDetOrden != null ? idDetOrden.hashCode() : 0);
+        hash += (idDetalle != null ? idDetalle.hashCode() : 0);
         return hash;
     }
 
@@ -137,7 +149,7 @@ public class Detalleorden implements Serializable {
             return false;
         }
         Detalleorden other = (Detalleorden) object;
-        if ((this.idDetOrden == null && other.idDetOrden != null) || (this.idDetOrden != null && !this.idDetOrden.equals(other.idDetOrden))) {
+        if ((this.idDetalle == null && other.idDetalle != null) || (this.idDetalle != null && !this.idDetalle.equals(other.idDetalle))) {
             return false;
         }
         return true;
@@ -145,7 +157,7 @@ public class Detalleorden implements Serializable {
 
     @Override
     public String toString() {
-        return "com.ssc.objetosnegocio.Detalleorden[ idDetOrden=" + idDetOrden + " ]";
+        return idServicio.getDescripcion() + " " + this.cantidad + " " + this.pUnit + " " + this.importe;
     }
 
 }

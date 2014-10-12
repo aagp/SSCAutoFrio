@@ -1,6 +1,6 @@
 //<editor-fold defaultstate="collapsed" desc=" License ">
 /*
- * @(#)ClienteJpaController.java Created on 10/10/2014, 07:54:46 PM
+ * @(#)ClienteJpaController.java Created on 12/10/2014, 09:12:58 AM
  *
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
@@ -21,22 +21,19 @@
 
 package com.ssc.persistencia;
 
+import com.ssc.excepciones.*;
 import com.ssc.objetosnegocio.Cliente;
-import com.ssc.objetosnegocio.Orden;
-import com.ssc.objetosnegocio.Vehiculo;
-import com.ssc.excepciones.IllegalOrphanException;
-import com.ssc.excepciones.NonexistentEntityException;
-import com.ssc.excepciones.PreexistingEntityException;
 import java.io.Serializable;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
+import com.ssc.objetosnegocio.Orden;
 import java.util.ArrayList;
 import java.util.Collection;
+import com.ssc.objetosnegocio.Tiene;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 
 /**
  * Class ClienteJpaController
@@ -46,10 +43,11 @@ import javax.persistence.EntityManagerFactory;
  */
 public class ClienteJpaController implements Serializable {
 
-    public ClienteJpaController(EntityManagerFactory emf) {
-        this.emf = emf;
-    }
     private EntityManagerFactory emf = null;
+    
+    public ClienteJpaController() {
+        emf = Persistence.createEntityManagerFactory("SSCAutoFrioPU");
+    }
 
     public EntityManager getEntityManager() {
         return emf.createEntityManager();
@@ -59,26 +57,26 @@ public class ClienteJpaController implements Serializable {
         if (cliente.getOrdenCollection() == null) {
             cliente.setOrdenCollection(new ArrayList<Orden>());
         }
+        if (cliente.getTieneCollection() == null) {
+            cliente.setTieneCollection(new ArrayList<Tiene>());
+        }
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Vehiculo idVehiculo = cliente.getIdVehiculo();
-            if (idVehiculo != null) {
-                idVehiculo = em.getReference(idVehiculo.getClass(), idVehiculo.getIdVehiculo());
-                cliente.setIdVehiculo(idVehiculo);
-            }
             Collection<Orden> attachedOrdenCollection = new ArrayList<Orden>();
             for (Orden ordenCollectionOrdenToAttach : cliente.getOrdenCollection()) {
                 ordenCollectionOrdenToAttach = em.getReference(ordenCollectionOrdenToAttach.getClass(), ordenCollectionOrdenToAttach.getIdOrden());
                 attachedOrdenCollection.add(ordenCollectionOrdenToAttach);
             }
             cliente.setOrdenCollection(attachedOrdenCollection);
-            em.persist(cliente);
-            if (idVehiculo != null) {
-                idVehiculo.getClienteCollection().add(cliente);
-                idVehiculo = em.merge(idVehiculo);
+            Collection<Tiene> attachedTieneCollection = new ArrayList<Tiene>();
+            for (Tiene tieneCollectionTieneToAttach : cliente.getTieneCollection()) {
+                tieneCollectionTieneToAttach = em.getReference(tieneCollectionTieneToAttach.getClass(), tieneCollectionTieneToAttach.getIdTiene());
+                attachedTieneCollection.add(tieneCollectionTieneToAttach);
             }
+            cliente.setTieneCollection(attachedTieneCollection);
+            em.persist(cliente);
             for (Orden ordenCollectionOrden : cliente.getOrdenCollection()) {
                 Cliente oldIdClienteOfOrdenCollectionOrden = ordenCollectionOrden.getIdCliente();
                 ordenCollectionOrden.setIdCliente(cliente);
@@ -86,6 +84,15 @@ public class ClienteJpaController implements Serializable {
                 if (oldIdClienteOfOrdenCollectionOrden != null) {
                     oldIdClienteOfOrdenCollectionOrden.getOrdenCollection().remove(ordenCollectionOrden);
                     oldIdClienteOfOrdenCollectionOrden = em.merge(oldIdClienteOfOrdenCollectionOrden);
+                }
+            }
+            for (Tiene tieneCollectionTiene : cliente.getTieneCollection()) {
+                Cliente oldIdClienteOfTieneCollectionTiene = tieneCollectionTiene.getIdCliente();
+                tieneCollectionTiene.setIdCliente(cliente);
+                tieneCollectionTiene = em.merge(tieneCollectionTiene);
+                if (oldIdClienteOfTieneCollectionTiene != null) {
+                    oldIdClienteOfTieneCollectionTiene.getTieneCollection().remove(tieneCollectionTiene);
+                    oldIdClienteOfTieneCollectionTiene = em.merge(oldIdClienteOfTieneCollectionTiene);
                 }
             }
             em.getTransaction().commit();
@@ -107,10 +114,10 @@ public class ClienteJpaController implements Serializable {
             em = getEntityManager();
             em.getTransaction().begin();
             Cliente persistentCliente = em.find(Cliente.class, cliente.getIdCliente());
-            Vehiculo idVehiculoOld = persistentCliente.getIdVehiculo();
-            Vehiculo idVehiculoNew = cliente.getIdVehiculo();
             Collection<Orden> ordenCollectionOld = persistentCliente.getOrdenCollection();
             Collection<Orden> ordenCollectionNew = cliente.getOrdenCollection();
+            Collection<Tiene> tieneCollectionOld = persistentCliente.getTieneCollection();
+            Collection<Tiene> tieneCollectionNew = cliente.getTieneCollection();
             List<String> illegalOrphanMessages = null;
             for (Orden ordenCollectionOldOrden : ordenCollectionOld) {
                 if (!ordenCollectionNew.contains(ordenCollectionOldOrden)) {
@@ -120,12 +127,16 @@ public class ClienteJpaController implements Serializable {
                     illegalOrphanMessages.add("You must retain Orden " + ordenCollectionOldOrden + " since its idCliente field is not nullable.");
                 }
             }
+            for (Tiene tieneCollectionOldTiene : tieneCollectionOld) {
+                if (!tieneCollectionNew.contains(tieneCollectionOldTiene)) {
+                    if (illegalOrphanMessages == null) {
+                        illegalOrphanMessages = new ArrayList<String>();
+                    }
+                    illegalOrphanMessages.add("You must retain Tiene " + tieneCollectionOldTiene + " since its idCliente field is not nullable.");
+                }
+            }
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
-            }
-            if (idVehiculoNew != null) {
-                idVehiculoNew = em.getReference(idVehiculoNew.getClass(), idVehiculoNew.getIdVehiculo());
-                cliente.setIdVehiculo(idVehiculoNew);
             }
             Collection<Orden> attachedOrdenCollectionNew = new ArrayList<Orden>();
             for (Orden ordenCollectionNewOrdenToAttach : ordenCollectionNew) {
@@ -134,15 +145,14 @@ public class ClienteJpaController implements Serializable {
             }
             ordenCollectionNew = attachedOrdenCollectionNew;
             cliente.setOrdenCollection(ordenCollectionNew);
+            Collection<Tiene> attachedTieneCollectionNew = new ArrayList<Tiene>();
+            for (Tiene tieneCollectionNewTieneToAttach : tieneCollectionNew) {
+                tieneCollectionNewTieneToAttach = em.getReference(tieneCollectionNewTieneToAttach.getClass(), tieneCollectionNewTieneToAttach.getIdTiene());
+                attachedTieneCollectionNew.add(tieneCollectionNewTieneToAttach);
+            }
+            tieneCollectionNew = attachedTieneCollectionNew;
+            cliente.setTieneCollection(tieneCollectionNew);
             cliente = em.merge(cliente);
-            if (idVehiculoOld != null && !idVehiculoOld.equals(idVehiculoNew)) {
-                idVehiculoOld.getClienteCollection().remove(cliente);
-                idVehiculoOld = em.merge(idVehiculoOld);
-            }
-            if (idVehiculoNew != null && !idVehiculoNew.equals(idVehiculoOld)) {
-                idVehiculoNew.getClienteCollection().add(cliente);
-                idVehiculoNew = em.merge(idVehiculoNew);
-            }
             for (Orden ordenCollectionNewOrden : ordenCollectionNew) {
                 if (!ordenCollectionOld.contains(ordenCollectionNewOrden)) {
                     Cliente oldIdClienteOfOrdenCollectionNewOrden = ordenCollectionNewOrden.getIdCliente();
@@ -151,6 +161,17 @@ public class ClienteJpaController implements Serializable {
                     if (oldIdClienteOfOrdenCollectionNewOrden != null && !oldIdClienteOfOrdenCollectionNewOrden.equals(cliente)) {
                         oldIdClienteOfOrdenCollectionNewOrden.getOrdenCollection().remove(ordenCollectionNewOrden);
                         oldIdClienteOfOrdenCollectionNewOrden = em.merge(oldIdClienteOfOrdenCollectionNewOrden);
+                    }
+                }
+            }
+            for (Tiene tieneCollectionNewTiene : tieneCollectionNew) {
+                if (!tieneCollectionOld.contains(tieneCollectionNewTiene)) {
+                    Cliente oldIdClienteOfTieneCollectionNewTiene = tieneCollectionNewTiene.getIdCliente();
+                    tieneCollectionNewTiene.setIdCliente(cliente);
+                    tieneCollectionNewTiene = em.merge(tieneCollectionNewTiene);
+                    if (oldIdClienteOfTieneCollectionNewTiene != null && !oldIdClienteOfTieneCollectionNewTiene.equals(cliente)) {
+                        oldIdClienteOfTieneCollectionNewTiene.getTieneCollection().remove(tieneCollectionNewTiene);
+                        oldIdClienteOfTieneCollectionNewTiene = em.merge(oldIdClienteOfTieneCollectionNewTiene);
                     }
                 }
             }
@@ -191,13 +212,15 @@ public class ClienteJpaController implements Serializable {
                 }
                 illegalOrphanMessages.add("This Cliente (" + cliente + ") cannot be destroyed since the Orden " + ordenCollectionOrphanCheckOrden + " in its ordenCollection field has a non-nullable idCliente field.");
             }
+            Collection<Tiene> tieneCollectionOrphanCheck = cliente.getTieneCollection();
+            for (Tiene tieneCollectionOrphanCheckTiene : tieneCollectionOrphanCheck) {
+                if (illegalOrphanMessages == null) {
+                    illegalOrphanMessages = new ArrayList<String>();
+                }
+                illegalOrphanMessages.add("This Cliente (" + cliente + ") cannot be destroyed since the Tiene " + tieneCollectionOrphanCheckTiene + " in its tieneCollection field has a non-nullable idCliente field.");
+            }
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
-            }
-            Vehiculo idVehiculo = cliente.getIdVehiculo();
-            if (idVehiculo != null) {
-                idVehiculo.getClienteCollection().remove(cliente);
-                idVehiculo = em.merge(idVehiculo);
             }
             em.remove(cliente);
             em.getTransaction().commit();
@@ -219,9 +242,7 @@ public class ClienteJpaController implements Serializable {
     private List<Cliente> findClienteEntities(boolean all, int maxResults, int firstResult) {
         EntityManager em = getEntityManager();
         try {
-            CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            cq.select(cq.from(Cliente.class));
-            Query q = em.createQuery(cq);
+            Query q = em.createQuery("select object(o) from Cliente as o");
             if (!all) {
                 q.setMaxResults(maxResults);
                 q.setFirstResult(firstResult);
@@ -244,10 +265,7 @@ public class ClienteJpaController implements Serializable {
     public int getClienteCount() {
         EntityManager em = getEntityManager();
         try {
-            CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            Root<Cliente> rt = cq.from(Cliente.class);
-            cq.select(em.getCriteriaBuilder().count(rt));
-            Query q = em.createQuery(cq);
+            Query q = em.createQuery("select count(o) from Cliente as o");
             return ((Long) q.getSingleResult()).intValue();
         } finally {
             em.close();
