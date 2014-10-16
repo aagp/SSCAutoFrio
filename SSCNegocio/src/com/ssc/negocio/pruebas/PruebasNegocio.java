@@ -25,8 +25,7 @@ import com.ssc.excepciones.NonexistentEntityException;
 import com.ssc.excepciones.PreexistingEntityException;
 import com.ssc.interfaznegocio.INegocio;
 import com.ssc.negocio.FNegocio;
-import com.ssc.objetosnegocio.Orden;
-import com.ssc.objetosnegocio.Servicio;
+import com.ssc.objetosnegocio.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -43,6 +42,11 @@ public class PruebasNegocio {
      */
     public static void main(String[] args) throws NonexistentEntityException {
         INegocio ne = new FNegocio();
+        
+//        Cliente c = new Cliente("6441643157");
+//        for(Object o : ne.getVehiculosPorCliente(c)) {
+//            System.out.println(o);
+//        }
         
         Orden orden = new Orden(1);
         for(Object o : ne.getDetalleOrden(orden)) {
