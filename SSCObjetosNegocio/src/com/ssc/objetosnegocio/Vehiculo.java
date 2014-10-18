@@ -55,6 +55,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Vehiculo.findByCilindros", query = "SELECT v FROM Vehiculo v WHERE v.cilindros = :cilindros"),
     @NamedQuery(name = "Vehiculo.findByMotor", query = "SELECT v FROM Vehiculo v WHERE v.motor = :motor")})
 public class Vehiculo implements Serializable {
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idVehiculo")
+    private Collection<Orden> ordenCollection;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -80,6 +82,15 @@ public class Vehiculo implements Serializable {
 
     public Vehiculo(Integer idVehiculo) {
         this.idVehiculo = idVehiculo;
+    }
+    
+    public Vehiculo(Integer idVehiculo, Integer año, String marca, String modelo, String cilindros, double motor) {
+        this.idVehiculo = idVehiculo;
+        this.año = año;
+        this.marca = marca;
+        this.modelo = modelo;
+        this.cilindros = cilindros;
+        this.motor = motor;
     }
 
     public Integer getIdVehiculo() {
@@ -162,6 +173,15 @@ public class Vehiculo implements Serializable {
     @Override
     public String toString() {
         return "com.ssc.objetosnegocio.Vehiculo[ idVehiculo=" + idVehiculo + " ]";
+    }
+
+    @XmlTransient
+    public Collection<Orden> getOrdenCollection() {
+        return ordenCollection;
+    }
+
+    public void setOrdenCollection(Collection<Orden> ordenCollection) {
+        this.ordenCollection = ordenCollection;
     }
 
 }

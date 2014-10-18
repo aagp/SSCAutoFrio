@@ -55,7 +55,7 @@ public class FPersistencia implements IPersistencia {
     @Override
     public Orden eliminarOrden(Orden orden) throws NonexistentEntityException, Exception {
         cp = new CPersistencia();
-        return cp.registrarOrden(orden);
+        return cp.eliminarOrden(orden);
     }
     
     @Override
@@ -68,6 +68,19 @@ public class FPersistencia implements IPersistencia {
     public List<Orden> listaOrdenes() throws NonexistentEntityException {
         cp = new CPersistencia();
         return cp.listaOrdenes();
+    }
+    
+    @Override
+    public List<Orden> listaEstado(String estado) {
+        cp = new CPersistencia();
+        return cp.listaEstado(estado);
+        
+    }
+    
+    @Override
+    public int lastInsert() {
+        cp = new CPersistencia();
+        return cp.lastInsert();
     }
     //</editor-fold>
     
@@ -91,7 +104,7 @@ public class FPersistencia implements IPersistencia {
     }
     
     @Override
-    public Cliente buscarCliente(Cliente cliente) throws NonexistentEntityException {
+    public Cliente buscarCliente(String cliente) throws NonexistentEntityException {
         cp = new CPersistencia();
         return cp.buscarCliente(cliente);
     }

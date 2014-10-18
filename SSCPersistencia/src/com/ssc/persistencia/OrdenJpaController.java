@@ -247,4 +247,11 @@ public class OrdenJpaController implements Serializable {
         Query query = getEntityManager().createNativeQuery(queryString);
         return ((Integer) query.getSingleResult()).intValue();
     } 
+    
+    public List<Orden> getListaPorEstado(String estado) {
+        List results = getEntityManager().createNamedQuery("Orden.findByEstado")
+                .setParameter("estado", estado)
+                .getResultList();
+        return results;
+    }    
 }

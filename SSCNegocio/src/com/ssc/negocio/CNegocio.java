@@ -53,7 +53,7 @@ public class CNegocio {
 
     protected Orden eliminarOrden(Orden orden) throws NonexistentEntityException, Exception {
         pe = new FPersistencia();
-        return pe.registrarOrden(orden);
+        return pe.eliminarOrden(orden);
     }
 
     protected Orden buscarOrden(Orden orden) throws NonexistentEntityException {
@@ -64,6 +64,16 @@ public class CNegocio {
     protected List<Orden> listaOrdenes() throws NonexistentEntityException {
         pe = new FPersistencia();
         return pe.listaOrdenes();
+    }
+    
+    protected List<Orden> listaEstado(String estado) {
+        pe = new FPersistencia();
+        return pe.listaEstado(estado);
+    }
+    
+    protected int lastInsert() {
+        pe = new FPersistencia();
+        return pe.lastInsert();
     }
     //</editor-fold>
 
@@ -83,7 +93,7 @@ public class CNegocio {
         return pe.eliminarCliente(cliente);
     }
 
-    protected Cliente buscarCliente(Cliente cliente) throws NonexistentEntityException {
+    protected Cliente buscarCliente(String cliente) throws NonexistentEntityException {
         pe = new FPersistencia();
         return pe.buscarCliente(cliente);
     }

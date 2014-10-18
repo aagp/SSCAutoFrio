@@ -75,6 +75,16 @@ public class CPersistencia {
         ojc = new OrdenJpaController();
         return ojc.findOrdenEntities();
     }
+    
+    protected List<Orden> listaEstado(String estado) {
+        ojc = new OrdenJpaController();
+        return ojc.getListaPorEstado(estado);
+    }
+    
+    protected int lastInsert() {
+        ojc = new OrdenJpaController();
+        return ojc.lastInsert();
+    }
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc=" Cliente ">
@@ -96,9 +106,9 @@ public class CPersistencia {
         return cliente;
     }
 
-    protected Cliente buscarCliente(Cliente cliente) throws NonexistentEntityException {
+    protected Cliente buscarCliente(String cliente) throws NonexistentEntityException {
         cjc = new ClienteJpaController();
-        return cjc.findCliente(cliente.getIdCliente());
+        return cjc.findCliente(cliente);
     }
 
     protected List<Cliente> listaClientes() throws NonexistentEntityException {

@@ -35,11 +35,13 @@ public interface IPersistencia {
     Orden eliminarOrden(Orden orden) throws NonexistentEntityException, Exception;
     Orden buscarOrden(Orden orden) throws NonexistentEntityException;
     List<Orden> listaOrdenes() throws NonexistentEntityException;
+    List<Orden> listaEstado(String estado);
+    int lastInsert();
     
     Cliente agregarCliente(Cliente cliente) throws PreexistingEntityException, Exception;
     Cliente actualizarCliente(Cliente cliente) throws NonexistentEntityException, Exception;
     Cliente eliminarCliente(Cliente cliente) throws NonexistentEntityException, Exception;
-    Cliente buscarCliente(Cliente cliente) throws NonexistentEntityException;
+    Cliente buscarCliente(String cliente) throws NonexistentEntityException;
     List<Cliente> listaClientes() throws NonexistentEntityException;
     
     Vehiculo agregarVehiculo(Vehiculo vehiculo) throws PreexistingEntityException, Exception;

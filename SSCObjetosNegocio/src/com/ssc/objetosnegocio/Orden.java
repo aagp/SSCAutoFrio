@@ -58,6 +58,9 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Orden.findByComentarios", query = "SELECT o FROM Orden o WHERE o.comentarios = :comentarios"),
     @NamedQuery(name = "Orden.findByEstado", query = "SELECT o FROM Orden o WHERE o.estado = :estado")})
 public class Orden implements Serializable {
+    @JoinColumn(name = "idVehiculo", referencedColumnName = "idVehiculo")
+    @ManyToOne(optional = false)
+    private Vehiculo idVehiculo;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -90,6 +93,14 @@ public class Orden implements Serializable {
         this.idOrden = idOrden;
     }
 
+    public Orden(Cliente idCliente, Vehiculo idVehiculo, String comentarios, String fecha, String estado) {
+        this.idCliente = idCliente;
+        this.idVehiculo = idVehiculo;
+        this.comentarios = comentarios;
+        this.fecha = fecha;
+        this.estado = estado;
+    }
+    
     public Integer getIdOrden() {
         return idOrden;
     }
@@ -186,6 +197,14 @@ public class Orden implements Serializable {
     @Override
     public String toString() {
         return "com.ssc.objetosnegocio.Orden[ idOrden=" + idOrden + " ]";
+    }
+
+    public Vehiculo getIdVehiculo() {
+        return idVehiculo;
+    }
+
+    public void setIdVehiculo(Vehiculo idVehiculo) {
+        this.idVehiculo = idVehiculo;
     }
 
 }

@@ -56,7 +56,7 @@ public class FNegocio implements INegocio {
     @Override
     public Orden eliminarOrden(Orden orden) throws NonexistentEntityException, Exception {
         cn = new CNegocio();
-        return cn.registrarOrden(orden);
+        return cn.eliminarOrden(orden);
     }
     
     @Override
@@ -69,6 +69,18 @@ public class FNegocio implements INegocio {
     public List<Orden> listaOrdenes() throws NonexistentEntityException {
         cn = new CNegocio();
         return cn.listaOrdenes();
+    }
+    
+    @Override
+    public List<Orden> listaEstado(String estado) {
+        cn = new CNegocio();
+        return cn.listaEstado(estado);
+    }
+    
+    @Override
+    public int lastInsert() {
+        cn = new CNegocio();
+        return cn.lastInsert();
     }
     //</editor-fold>
     
@@ -92,7 +104,7 @@ public class FNegocio implements INegocio {
     }
     
     @Override
-    public Cliente buscarCliente(Cliente cliente) throws NonexistentEntityException {
+    public Cliente buscarCliente(String cliente) throws NonexistentEntityException {
         cn = new CNegocio();
         return cn.buscarCliente(cliente);
     }
