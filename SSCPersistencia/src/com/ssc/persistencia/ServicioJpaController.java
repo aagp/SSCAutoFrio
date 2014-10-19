@@ -212,5 +212,11 @@ public class ServicioJpaController implements Serializable {
             em.close();
         }
     }
+    public List<Servicio> getServicioLike(String nombre) {
+        String queryString = "SELECT s FROM Servicio s WHERE LOWER(s.descripcion) LIKE :nombre";
+        Query query = getEntityManager().createQuery(queryString);
 
+        query.setParameter("nombre", nombre.toLowerCase() + '%');
+        return query.getResultList();
+    }
 }

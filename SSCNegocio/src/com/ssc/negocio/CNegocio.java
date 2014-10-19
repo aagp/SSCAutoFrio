@@ -38,126 +38,109 @@ public class CNegocio {
     IPersistencia pe;
 
     protected CNegocio() {
+        pe = new FPersistencia();
     }
 
     //<editor-fold defaultstate="collapsed" desc=" Orden ">
     protected Orden registrarOrden(Orden orden) throws PreexistingEntityException, Exception {
-        pe = new FPersistencia();
         return pe.registrarOrden(orden);
     }
 
     protected Orden actulizarOrden(Orden orden) throws NonexistentEntityException, Exception {
-        pe = new FPersistencia();
         return pe.actulizarOrden(orden);
     }
 
     protected Orden eliminarOrden(Orden orden) throws NonexistentEntityException, Exception {
-        pe = new FPersistencia();
         return pe.eliminarOrden(orden);
     }
 
     protected Orden buscarOrden(Orden orden) throws NonexistentEntityException {
-        pe = new FPersistencia();
         return pe.buscarOrden(orden);
     }
 
     protected List<Orden> listaOrdenes() throws NonexistentEntityException {
-        pe = new FPersistencia();
         return pe.listaOrdenes();
     }
-    
+
     protected List<Orden> listaEstado(String estado) {
-        pe = new FPersistencia();
         return pe.listaEstado(estado);
     }
-    
+
     protected int lastInsert() {
-        pe = new FPersistencia();
         return pe.lastInsert();
     }
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc=" Cliente ">
     protected Cliente agregarCliente(Cliente cliente) throws PreexistingEntityException, Exception {
-        pe = new FPersistencia();
         return pe.agregarCliente(cliente);
     }
 
     protected Cliente actualizarCliente(Cliente cliente) throws NonexistentEntityException, Exception {
-        pe = new FPersistencia();
         return pe.actualizarCliente(cliente);
     }
 
     protected Cliente eliminarCliente(Cliente cliente) throws NonexistentEntityException, Exception {
-        pe = new FPersistencia();
         return pe.eliminarCliente(cliente);
     }
 
     protected Cliente buscarCliente(String cliente) throws NonexistentEntityException {
-        pe = new FPersistencia();
         return pe.buscarCliente(cliente);
     }
 
     protected List<Cliente> listaClientes() throws NonexistentEntityException {
-        pe = new FPersistencia();
         return pe.listaClientes();
     }
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc=" Vehiculo ">
     protected Vehiculo agregarVehiculo(Vehiculo vehiculo) throws PreexistingEntityException, Exception {
-        pe = new FPersistencia();
         return pe.agregarVehiculo(vehiculo);
     }
 
     protected Vehiculo actualizarVehiculo(Vehiculo vehiculo) throws NonexistentEntityException, Exception {
-        pe = new FPersistencia();
         return pe.actualizarVehiculo(vehiculo);
     }
 
     protected Vehiculo eliminarVehiculo(Vehiculo vehiculo) throws NonexistentEntityException, Exception {
-        pe = new FPersistencia();
         return pe.eliminarVehiculo(vehiculo);
     }
 
     protected List<Vehiculo> listaVehiculos() throws NonexistentEntityException {
-        pe = new FPersistencia();
         return pe.listaVehiculos();
     }
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc=" Servicio ">
     protected Servicio agregarServicio(Servicio servicio) throws PreexistingEntityException, Exception {
-        pe = new FPersistencia();
         return pe.agregarServicio(servicio);
     }
 
     protected Servicio actualizarServicio(Servicio servicio) throws NonexistentEntityException, Exception {
-        pe = new FPersistencia();
         return pe.actualizarServicio(servicio);
     }
 
     protected Servicio eliminarServicio(Servicio servicio) throws NonexistentEntityException, Exception {
-        pe = new FPersistencia();
         return pe.eliminarServicio(servicio);
     }
 
     protected List<Servicio> listaServicios() throws NonexistentEntityException {
-        pe = new FPersistencia();
         return pe.listaServicios();
+    }
+
+    protected List<Servicio> getServicioLike(String nombre) {
+        return pe.getServicioLike(nombre);
     }
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc=" Tiene ">    
     protected List<Tiene> getVehiculosPorCliente(Cliente cliente) throws NonexistentEntityException {
-        pe = new FPersistencia();
         return pe.getVehiculosPorCliente(cliente);
     }
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc=" Detalleorden ">    
     protected List<Detalleorden> getDetalleOrden(Orden orden) throws NonexistentEntityException {
-        pe = new FPersistencia();
         return pe.getDetalleOrden(orden);
     }
     //</editor-fold>    

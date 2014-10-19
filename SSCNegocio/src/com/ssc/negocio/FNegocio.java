@@ -37,49 +37,42 @@ public class FNegocio implements INegocio {
     CNegocio cn;
     
     public FNegocio() {
-        
+        cn = new CNegocio();
     }
     
     //<editor-fold defaultstate="collapsed" desc=" Orden ">
     @Override
     public Orden registrarOrden(Orden orden) throws PreexistingEntityException, Exception {
-        cn = new CNegocio();
         return cn.registrarOrden(orden);
     }
 
     @Override
     public Orden actulizarOrden(Orden orden) throws NonexistentEntityException, Exception {
-        cn = new CNegocio();        
         return cn.actulizarOrden(orden);
     }
 
     @Override
     public Orden eliminarOrden(Orden orden) throws NonexistentEntityException, Exception {
-        cn = new CNegocio();
         return cn.eliminarOrden(orden);
     }
     
     @Override
     public Orden buscarOrden(Orden orden) throws NonexistentEntityException {
-        cn = new CNegocio();
         return cn.buscarOrden(orden);
     }
     
     @Override
     public List<Orden> listaOrdenes() throws NonexistentEntityException {
-        cn = new CNegocio();
         return cn.listaOrdenes();
     }
     
     @Override
     public List<Orden> listaEstado(String estado) {
-        cn = new CNegocio();
         return cn.listaEstado(estado);
     }
     
     @Override
     public int lastInsert() {
-        cn = new CNegocio();
         return cn.lastInsert();
     }
     //</editor-fold>
@@ -87,31 +80,26 @@ public class FNegocio implements INegocio {
     //<editor-fold defaultstate="collapsed" desc=" Cliente ">
     @Override
     public Cliente agregarCliente(Cliente cliente) throws PreexistingEntityException, Exception {
-        cn = new CNegocio();
         return cn.agregarCliente(cliente);
     }
     
     @Override
     public Cliente actualizarCliente(Cliente cliente) throws NonexistentEntityException, Exception {
-        cn = new CNegocio();
         return cn.actualizarCliente(cliente);
     }
     
     @Override
     public Cliente eliminarCliente(Cliente cliente) throws NonexistentEntityException, Exception {
-        cn = new CNegocio();
         return cn.eliminarCliente(cliente);
     }
     
     @Override
     public Cliente buscarCliente(String cliente) throws NonexistentEntityException {
-        cn = new CNegocio();
         return cn.buscarCliente(cliente);
     }
 
     @Override
     public List<Cliente> listaClientes() throws NonexistentEntityException {
-        cn = new CNegocio();
         return cn.listaClientes();
     }
     //</editor-fold>
@@ -119,25 +107,21 @@ public class FNegocio implements INegocio {
     //<editor-fold defaultstate="collapsed" desc=" Vehiculo ">
     @Override
     public Vehiculo agregarVehiculo(Vehiculo vehiculo) throws PreexistingEntityException, Exception {
-        cn = new CNegocio();
         return cn.agregarVehiculo(vehiculo);
     }
     
     @Override
     public Vehiculo actualizarVehiculo(Vehiculo vehiculo) throws NonexistentEntityException, Exception {
-        cn = new CNegocio();
         return cn.actualizarVehiculo(vehiculo);
     }
     
     @Override
     public Vehiculo eliminarVehiculo(Vehiculo vehiculo) throws NonexistentEntityException, Exception {
-        cn = new CNegocio();
         return cn.eliminarVehiculo(vehiculo);
     }
     
     @Override
     public List<Vehiculo> listaVehiculos() throws NonexistentEntityException {
-        cn = new CNegocio();
         return cn.listaVehiculos();
     }
     //</editor-fold>
@@ -145,33 +129,33 @@ public class FNegocio implements INegocio {
     //<editor-fold defaultstate="collapsed" desc=" Servicio ">
     @Override
     public Servicio agregarServicio(Servicio servicio) throws PreexistingEntityException, Exception {
-        cn = new CNegocio();
         return cn.agregarServicio(servicio);
     }
     
     @Override
     public Servicio actualizarServicio(Servicio servicio) throws NonexistentEntityException, Exception {
-        cn = new CNegocio();
         return cn.actualizarServicio(servicio);
     }
     
     @Override
     public Servicio eliminarServicio(Servicio servicio) throws NonexistentEntityException, Exception {
-        cn = new CNegocio();
         return cn.eliminarServicio(servicio);
     }
     
     @Override
     public List<Servicio> listaServicios() throws NonexistentEntityException {
-        cn = new CNegocio();
         return cn.listaServicios();
+    }
+    
+    @Override
+    public List<Servicio> getServicioLike(String nombre) {
+        return cn.getServicioLike(nombre);
     }
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc=" Tiene ">    
     @Override
     public List<Tiene> getVehiculosPorCliente(Cliente cliente) throws NonexistentEntityException {
-        cn = new CNegocio();
         return cn.getVehiculosPorCliente(cliente);
     }
     //</editor-fold>
@@ -179,7 +163,6 @@ public class FNegocio implements INegocio {
     //<editor-fold defaultstate="collapsed" desc=" Detalleorden ">    
     @Override
     public List<Detalleorden> getDetalleOrden(Orden orden) throws NonexistentEntityException {
-        cn = new CNegocio();
         return cn.getDetalleOrden(orden);
     }
     //</editor-fold>

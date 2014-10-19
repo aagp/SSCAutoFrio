@@ -53,6 +53,7 @@ public interface IPersistencia {
     Servicio actualizarServicio(Servicio servicio) throws NonexistentEntityException, Exception;
     Servicio eliminarServicio(Servicio servicio) throws NonexistentEntityException, Exception;
     List<Servicio> listaServicios() throws NonexistentEntityException;
+    List<Servicio> getServicioLike(String nombre);
     
     List<Tiene> getVehiculosPorCliente(Cliente cliente) throws NonexistentEntityException;
     List<Detalleorden> getDetalleOrden(Orden orden) throws NonexistentEntityException;
