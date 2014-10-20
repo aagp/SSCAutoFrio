@@ -58,5 +58,5 @@ public interface INegocio {
     
     List<Tiene> getVehiculosPorCliente(Cliente cliente) throws NonexistentEntityException;
     List<Detalleorden> getDetalleOrden(Orden orden) throws NonexistentEntityException;
-    
+    Detalleorden guardarDetalle(Detalleorden detalleOrden) throws PreexistingEntityException, Exception;
 }

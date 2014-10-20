@@ -166,5 +166,10 @@ public class CPersistencia {
     protected List<Detalleorden> getDetalleOrden(Orden orden) throws NonexistentEntityException {
         return djc.getDetalleOrden(orden);
     }
+    
+    protected Detalleorden guardarDetalle(Detalleorden detalleOrden) throws PreexistingEntityException, Exception {
+        djc.create(detalleOrden);
+        return detalleOrden;
+    }
     //</editor-fold>
 }

@@ -25,6 +25,7 @@ import com.ssc.excepciones.PreexistingEntityException;
 import com.ssc.interfaznegocio.INegocio;
 import com.ssc.negocio.FNegocio;
 import com.ssc.objetosnegocio.Cliente;
+import com.ssc.objetosnegocio.Detalleorden;
 import com.ssc.objetosnegocio.Orden;
 import com.ssc.objetosnegocio.Servicio;
 import com.ssc.objetosnegocio.Tiene;
@@ -59,7 +60,7 @@ public class SSCAutoFrio extends javax.swing.JFrame {
     INegocio ne;
     DefaultTableModel table1, table2, table3, table4, table5, table6;
     String id, idV, idSer, desc;
-    int cant = 0;
+    double cant = 0.0;
     double impor = 0.0;
     double punit = 0.0;
     double subt = 0.0;
@@ -100,7 +101,7 @@ public class SSCAutoFrio extends javax.swing.JFrame {
     }
 
     //<editor-fold defaultstate="collapsed" desc=" Icon/Centrar ">    
-    public Image iconSSCAutoFrio() {
+    private Image iconSSCAutoFrio() {
         Image retValue = Toolkit.getDefaultToolkit().
                 getImage(ClassLoader.getSystemResource("com/ssc/img/sscicon.png"));
         return retValue;
@@ -152,7 +153,7 @@ public class SSCAutoFrio extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         lblFolio = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        txtId = new javax.swing.JTextField();
+        txtOrdenId = new javax.swing.JTextField();
         jButton9 = new javax.swing.JButton();
         jButton10 = new javax.swing.JButton();
         lblNom = new javax.swing.JLabel();
@@ -166,17 +167,17 @@ public class SSCAutoFrio extends javax.swing.JFrame {
         Cotizacion = new javax.swing.JInternalFrame();
         jPanel3 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
-        txtCotId = new javax.swing.JLabel();
+        lblCotId = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
-        txtCotNom = new javax.swing.JLabel();
+        lblCotNom = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
-        txtCotDir = new javax.swing.JLabel();
+        lblCotDir = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
-        txtCotRfc = new javax.swing.JLabel();
+        lblCotRfc = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
-        txtCotVeh = new javax.swing.JLabel();
+        lblCotVeh = new javax.swing.JLabel();
         jLabel17 = new javax.swing.JLabel();
-        txtCotTel = new javax.swing.JLabel();
+        lblCotTel = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         tableDet = new javax.swing.JTable();
@@ -190,7 +191,7 @@ public class SSCAutoFrio extends javax.swing.JFrame {
         lblSub = new javax.swing.JLabel();
         jLabel25 = new javax.swing.JLabel();
         jScrollPane7 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        txtComentarios = new javax.swing.JTextArea();
         btnCotAce = new javax.swing.JButton();
         btnCotCan = new javax.swing.JButton();
         BuscarServicio = new javax.swing.JInternalFrame();
@@ -434,11 +435,11 @@ public class SSCAutoFrio extends javax.swing.JFrame {
         jLabel7.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel7.setText("ID Cliente:");
 
-        txtId.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        txtId.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        txtId.addActionListener(new java.awt.event.ActionListener() {
+        txtOrdenId.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txtOrdenId.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txtOrdenId.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtIdActionPerformed(evt);
+                txtOrdenIdActionPerformed(evt);
             }
         });
 
@@ -502,7 +503,7 @@ public class SSCAutoFrio extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel7)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtOrdenId, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton9)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -533,7 +534,7 @@ public class SSCAutoFrio extends javax.swing.JFrame {
                         .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(lblFolio, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel7)
-                        .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(txtOrdenId, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblNom, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -605,45 +606,39 @@ public class SSCAutoFrio extends javax.swing.JFrame {
         jLabel6.setText("Folio Orden:");
         jLabel6.setEnabled(false);
 
-        txtCotId.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        txtCotId.setForeground(new java.awt.Color(255, 0, 0));
-        txtCotId.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        txtCotId.setText("1");
+        lblCotId.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        lblCotId.setForeground(new java.awt.Color(255, 0, 0));
+        lblCotId.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
         jLabel9.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel9.setText("Nombre:");
         jLabel9.setEnabled(false);
 
-        txtCotNom.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        txtCotNom.setText("Alan Alberto García Peñúñuri");
+        lblCotNom.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
 
         jLabel11.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel11.setText("Dirección:");
         jLabel11.setEnabled(false);
 
-        txtCotDir.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        txtCotDir.setText("Coahuila 113 nte. Col. Centro C.P. 85000");
+        lblCotDir.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
 
         jLabel13.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel13.setText("R.F.C.");
         jLabel13.setEnabled(false);
 
-        txtCotRfc.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        txtCotRfc.setText("GAPA871102X7A");
+        lblCotRfc.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
 
         jLabel15.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel15.setText("Vehículo:");
         jLabel15.setEnabled(false);
 
-        txtCotVeh.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        txtCotVeh.setText("1999 Ford Ranger 6cil. 3.0");
+        lblCotVeh.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
 
         jLabel17.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel17.setText("Teléfono:");
         jLabel17.setEnabled(false);
 
-        txtCotTel.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        txtCotTel.setText("6441643157");
+        lblCotTel.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
 
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Servicios", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 12))); // NOI18N
 
@@ -698,7 +693,6 @@ public class SSCAutoFrio extends javax.swing.JFrame {
         lblTot.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         lblTot.setForeground(new java.awt.Color(255, 0, 0));
         lblTot.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        lblTot.setText("1,100.00");
 
         jLabel21.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel21.setText("IVA (16%)  $");
@@ -706,7 +700,6 @@ public class SSCAutoFrio extends javax.swing.JFrame {
 
         lblIva.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         lblIva.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        lblIva.setText("100.00");
         lblIva.setEnabled(false);
 
         jLabel23.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
@@ -715,7 +708,6 @@ public class SSCAutoFrio extends javax.swing.JFrame {
 
         lblSub.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         lblSub.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        lblSub.setText("1,000.00");
         lblSub.setEnabled(false);
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
@@ -758,27 +750,27 @@ public class SSCAutoFrio extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel19)
-                    .addComponent(lblSub))
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel19, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblSub, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel21)
-                    .addComponent(lblIva))
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel21, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblIva, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel23)
-                    .addComponent(lblTot))
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel23, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblTot, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
         jLabel25.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel25.setText("Comentarios:");
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jTextArea1.setRows(5);
-        jScrollPane7.setViewportView(jTextArea1);
+        txtComentarios.setColumns(20);
+        txtComentarios.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txtComentarios.setRows(5);
+        jScrollPane7.setViewportView(txtComentarios);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -799,23 +791,23 @@ public class SSCAutoFrio extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addComponent(txtCotId, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(lblCotId, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addGroup(jPanel3Layout.createSequentialGroup()
-                                        .addComponent(txtCotVeh, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(lblCotVeh, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(jLabel17)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(txtCotTel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                    .addComponent(txtCotDir, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(lblCotTel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addComponent(lblCotDir, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel3Layout.createSequentialGroup()
-                                        .addComponent(txtCotNom, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(lblCotNom, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addComponent(jLabel13)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(txtCotRfc, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addComponent(lblCotRfc, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addGap(144, 144, 144))))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -827,37 +819,43 @@ public class SSCAutoFrio extends javax.swing.JFrame {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel6)
-                    .addComponent(txtCotId))
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblCotId, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel9)
-                    .addComponent(txtCotNom)
-                    .addComponent(jLabel13)
-                    .addComponent(txtCotRfc))
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblCotNom, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblCotRfc, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel9)
+                        .addComponent(jLabel13)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel11)
-                    .addComponent(txtCotDir))
+                    .addComponent(lblCotDir, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel15)
-                    .addComponent(txtCotVeh)
-                    .addComponent(jLabel17)
-                    .addComponent(txtCotTel))
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel17, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblCotVeh, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblCotTel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel25)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         btnCotAce.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         btnCotAce.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/ssc/img/apply24.png"))); // NOI18N
         btnCotAce.setText("Aceptar");
+        btnCotAce.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCotAceActionPerformed(evt);
+            }
+        });
 
         btnCotCan.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         btnCotCan.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/ssc/img/cancel.png"))); // NOI18N
@@ -1176,12 +1174,12 @@ public class SSCAutoFrio extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnOrdenActionPerformed
 
-    private void txtIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtIdActionPerformed
+    private void txtOrdenIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtOrdenIdActionPerformed
         buscarCliente();
-    }//GEN-LAST:event_txtIdActionPerformed
+    }//GEN-LAST:event_txtOrdenIdActionPerformed
 
     private void btnOrdenAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOrdenAceptarActionPerformed
-        if (txtId.getText().equalsIgnoreCase("")) {
+        if (txtOrdenId.getText().equalsIgnoreCase("")) {
             JOptionPane.showMessageDialog(this, "Debe de ingresar un cliente",
                     "Error", JOptionPane.ERROR_MESSAGE, null);
         }
@@ -1197,8 +1195,8 @@ public class SSCAutoFrio extends javax.swing.JFrame {
         String fecha;
         fecha = dateFormat.format(date);
         try {
-            Vehiculo v = new Vehiculo(Integer.parseInt(id));
-            Cliente c = ne.buscarCliente(txtId.getText().trim());
+            Vehiculo v = new Vehiculo(Integer.parseInt(idV));
+            Cliente c = ne.buscarCliente(txtOrdenId.getText().trim());
             Orden o = new Orden(c, v, com, fecha, "Registrada");
             ne.registrarOrden(o);
             JOptionPane.showMessageDialog(this, "Orden Agregada correctamente",
@@ -1214,7 +1212,7 @@ public class SSCAutoFrio extends javax.swing.JFrame {
                     "Error", JOptionPane.ERROR_MESSAGE, null);
         }
         borrarTiene();
-        txtId.setText("");
+        txtOrdenId.setText("");
         lblNom.setText("");
         txtCom.setText("");
         borrarListas();
@@ -1274,21 +1272,21 @@ public class SSCAutoFrio extends javax.swing.JFrame {
                     o.setIdOrden(buscarOrden.getIdOrden());
                     o.setIdCliente(buscarOrden.getIdCliente());
                     o.setIdVehiculo(buscarOrden.getIdVehiculo());
-                    txtCotId.setText(o.getIdOrden().toString());
-                    txtCotNom.setText(o.getIdCliente().getNombre() + " "
+                    lblCotId.setText(o.getIdOrden().toString());
+                    lblCotNom.setText(o.getIdCliente().getNombre() + " "
                             + o.getIdCliente().getApellidoPat() + " "
                             + o.getIdCliente().getApellidoMat());
-                    txtCotRfc.setText(o.getIdCliente().getRfc());
-                    txtCotDir.setText(o.getIdCliente().getDireccion() + " "
+                    lblCotRfc.setText(o.getIdCliente().getRfc());
+                    lblCotDir.setText(o.getIdCliente().getDireccion() + " "
                             + o.getIdCliente().getNumExt() + " "
                             + o.getIdCliente().getColonia() + " "
                             + o.getIdCliente().getCp());
-                    txtCotVeh.setText(o.getIdVehiculo().getAño().toString() + " "
+                    lblCotVeh.setText(o.getIdVehiculo().getAño().toString() + " "
                             + o.getIdVehiculo().getMarca() + " "
                             + o.getIdVehiculo().getModelo() + " "
                             + o.getIdVehiculo().getCilindros() + " "
                             + o.getIdVehiculo().getMotor());
-                    txtCotTel.setText(o.getIdCliente().getIdCliente());
+                    lblCotTel.setText(o.getIdCliente().getIdCliente());
                 } catch (NonexistentEntityException ex) {
                     JOptionPane.showMessageDialog(this, "No existe la orden",
                             "Error", JOptionPane.ERROR_MESSAGE, null);
@@ -1323,7 +1321,7 @@ public class SSCAutoFrio extends javax.swing.JFrame {
         int fila = 0;
         fila = tableSer.getSelectedRow();
         idSer = tableSer.getValueAt(fila, 0).toString();
-        cant = 1;
+        cant = 1.0;
         desc = tableSer.getValueAt(fila, 1).toString();
         punit = Double.parseDouble(tableSer.getValueAt(fila, 2).toString());
         impor = punit * cant;
@@ -1356,9 +1354,9 @@ public class SSCAutoFrio extends javax.swing.JFrame {
         int fila = 0;
         fila = tableDet.getSelectedRow();
         double c1 = Double.parseDouble(tableDet.getValueAt(fila, 1).toString());
-        double c2 = Double.parseDouble(tableDet.getValueAt(fila,3).toString());
-        double c3 = c1*c2;
-        tableDet.setValueAt(c3,fila,4);
+        double c2 = Double.parseDouble(tableDet.getValueAt(fila, 3).toString());
+        double c3 = c1 * c2;
+        tableDet.setValueAt(c3, fila, 4);
         subt = 0.0;
         calcularImporte();
     }//GEN-LAST:event_tableDetKeyReleased
@@ -1370,6 +1368,49 @@ public class SSCAutoFrio extends javax.swing.JFrame {
         subt = 0.0;
         calcularImporte();
     }//GEN-LAST:event_btnEliminarSerActionPerformed
+
+    private void btnCotAceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCotAceActionPerformed
+        int idOrden = Integer.parseInt(lblCotId.getText().trim());
+        try {
+            Orden b = new Orden(idOrden);
+            Orden o = ne.buscarOrden(b);
+            o.setIdOrden(idOrden);
+            o.setIdCliente(o.getIdCliente());
+            o.setIdVehiculo(o.getIdVehiculo());
+            o.setSubtotal(Double.parseDouble(lblSub.getText().trim()));
+            o.setIva(Double.parseDouble(lblIva.getText().trim()));
+            o.setTotal(Double.parseDouble(lblTot.getText().trim()));
+            o.setComentarios(txtComentarios.getText().trim());
+            o.setEstado("Cotizada");
+            for (int i = 0; i < tableDet.getRowCount(); i++) {
+                int idServicio = Integer.parseInt(tableDet.getValueAt(i, 0).toString());
+                double cantidad = Double.parseDouble(tableDet.getValueAt(i, 1).toString());
+                double punit = Double.parseDouble(tableDet.getValueAt(i, 3).toString());
+                double importe = Double.parseDouble(tableDet.getValueAt(i, 4).toString());
+                Orden orden = new Orden(idOrden);
+                Servicio ser = new Servicio(idServicio);
+                Detalleorden detOrden = new Detalleorden(orden, ser, cantidad, punit, importe);
+                try {
+                    ne.guardarDetalle(detOrden);
+                } catch (PreexistingEntityException ex) {
+                    Logger.getLogger(SSCAutoFrio.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (Exception ex) {
+                    Logger.getLogger(SSCAutoFrio.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            ne.actulizarOrden(o);
+            JOptionPane.showMessageDialog(this, "Orden Cotizada correctamente",
+                    "Éxito", JOptionPane.INFORMATION_MESSAGE, null);
+        } catch (NonexistentEntityException ex) {
+            JOptionPane.showMessageDialog(this, "No se pudo cotizar la orden",
+                    "Error", JOptionPane.ERROR_MESSAGE, null);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Error en el sistema",
+                    "Error", JOptionPane.ERROR_MESSAGE, null);
+        }
+        borrarListas();
+        actualizaListas();
+    }//GEN-LAST:event_btnCotAceActionPerformed
 
     private void actualizaListaServ() throws NonexistentEntityException {
         String nombre = txtSerNom.getText().trim();
@@ -1397,10 +1438,10 @@ public class SSCAutoFrio extends javax.swing.JFrame {
 
     private void calcularImporte() {
         for (int i = 0; i < tableDet.getRowCount(); i++) {
-            subt += Double.parseDouble(tableDet.getValueAt(i,4).toString());
+            subt += Double.parseDouble(tableDet.getValueAt(i, 4).toString());
         }
-        iva = subt*0.16;
-        tot = subt+iva;
+        iva = subt * 0.16;
+        tot = subt + iva;
         lblSub.setText(Double.toString(subt));
         lblIva.setText(Double.toString(iva));
         lblTot.setText(Double.toString(tot));
@@ -1408,9 +1449,9 @@ public class SSCAutoFrio extends javax.swing.JFrame {
 
     //<editor-fold defaultstate="collapsed" desc=" Registrar Orden ">    
     private void buscarCliente() {
-        if (!txtId.getText().equals("")) {
+        if (!txtOrdenId.getText().equals("")) {
             try {
-                Cliente c = ne.buscarCliente(txtId.getText().trim());
+                Cliente c = ne.buscarCliente(txtOrdenId.getText().trim());
                 lblNom.setText(c.getNombre() + " " + c.getApellidoPat() + " " + c.getApellidoMat());
                 borrarTiene();
                 cargarVehiculos(c);
@@ -1483,7 +1524,7 @@ public class SSCAutoFrio extends javax.swing.JFrame {
             i--;
         }
         for (int i = 0; i < table3.getRowCount(); i++) {
-            table2.removeRow(i);
+            table3.removeRow(i);
             i--;
         }
     }
@@ -1575,8 +1616,13 @@ public class SSCAutoFrio extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JScrollPane jScrollPane8;
-    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JToolBar jToolBar1;
+    private javax.swing.JLabel lblCotDir;
+    private javax.swing.JLabel lblCotId;
+    private javax.swing.JLabel lblCotNom;
+    private javax.swing.JLabel lblCotRfc;
+    private javax.swing.JLabel lblCotTel;
+    private javax.swing.JLabel lblCotVeh;
     private javax.swing.JLabel lblFolio;
     private javax.swing.JLabel lblIva;
     private javax.swing.JLabel lblNom;
@@ -1594,13 +1640,8 @@ public class SSCAutoFrio extends javax.swing.JFrame {
     private javax.swing.JTable tableSer;
     private javax.swing.JTable tableTie;
     private javax.swing.JTextArea txtCom;
-    private javax.swing.JLabel txtCotDir;
-    private javax.swing.JLabel txtCotId;
-    private javax.swing.JLabel txtCotNom;
-    private javax.swing.JLabel txtCotRfc;
-    private javax.swing.JLabel txtCotTel;
-    private javax.swing.JLabel txtCotVeh;
-    private javax.swing.JTextField txtId;
+    private javax.swing.JTextArea txtComentarios;
+    private javax.swing.JTextField txtOrdenId;
     private javax.swing.JTextField txtSerNom;
     // End of variables declaration//GEN-END:variables
     //</editor-fold>

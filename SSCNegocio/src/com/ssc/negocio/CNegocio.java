@@ -143,5 +143,9 @@ public class CNegocio {
     protected List<Detalleorden> getDetalleOrden(Orden orden) throws NonexistentEntityException {
         return pe.getDetalleOrden(orden);
     }
+    
+    protected Detalleorden guardarDetalle(Detalleorden detalleOrden) throws PreexistingEntityException, Exception {
+        return pe.guardarDetalle(detalleOrden);
+    }    
     //</editor-fold>    
 }

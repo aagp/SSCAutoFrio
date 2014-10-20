@@ -165,6 +165,10 @@ public class FNegocio implements INegocio {
     public List<Detalleorden> getDetalleOrden(Orden orden) throws NonexistentEntityException {
         return cn.getDetalleOrden(orden);
     }
+    @Override
+    public Detalleorden guardarDetalle(Detalleorden detalleOrden) throws PreexistingEntityException, Exception {
+        return cn.guardarDetalle(detalleOrden);
+    }    
     //</editor-fold>
 
 }

@@ -165,6 +165,11 @@ public class FPersistencia implements IPersistencia {
     public List<Detalleorden> getDetalleOrden(Orden orden) throws NonexistentEntityException {
         return cp.getDetalleOrden(orden);
     }
+    
+    @Override
+    public Detalleorden guardarDetalle(Detalleorden detalleOrden) throws PreexistingEntityException, Exception {
+        return cp.guardarDetalle(detalleOrden);
+    }
     //</editor-fold>
     
 }
