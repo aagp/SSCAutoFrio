@@ -102,6 +102,11 @@ public class FPersistencia implements IPersistencia {
     public List<Cliente> listaClientes() throws NonexistentEntityException {
         return cp.listaClientes();
     }
+    
+    @Override
+    public List<Cliente> getClienteLike(String nombre) {
+        return cp.getClienteLike(nombre);
+    }    
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc=" Vehiculo ">

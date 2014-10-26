@@ -102,6 +102,11 @@ public class FNegocio implements INegocio {
     public List<Cliente> listaClientes() throws NonexistentEntityException {
         return cn.listaClientes();
     }
+    
+    @Override
+    public List<Cliente> getClienteLike(String nombre) {
+        return cn.getClienteLike(nombre);
+    }
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc=" Vehiculo ">

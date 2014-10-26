@@ -126,7 +126,7 @@ public class Detalleorden implements Serializable {
     public void setIdServicio(Servicio idServicio) {
         this.idServicio = idServicio;
     }
-
+    
     public Orden getIdOrden() {
         return idOrden;
     }

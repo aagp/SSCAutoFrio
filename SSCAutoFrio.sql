@@ -60,6 +60,7 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `SSCAutoFrio`.`orden` (
   `idOrden` INT NOT NULL AUTO_INCREMENT,
   `idCliente` VARCHAR(10) NOT NULL,
+  `idVehiculo` INT NOT NULL,
   `Fecha` VARCHAR(10) NULL,
   `Subtotal` DOUBLE NULL,
   `Iva` DOUBLE NULL,

@@ -91,6 +91,10 @@ public class CNegocio {
     protected List<Cliente> listaClientes() throws NonexistentEntityException {
         return pe.listaClientes();
     }
+    
+    protected List<Cliente> getClienteLike(String nombre) {
+        return pe.getClienteLike(nombre);
+    }    
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc=" Vehiculo ">

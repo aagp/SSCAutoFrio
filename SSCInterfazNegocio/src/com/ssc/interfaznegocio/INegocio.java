@@ -44,6 +44,7 @@ public interface INegocio {
     Cliente eliminarCliente(Cliente cliente) throws NonexistentEntityException, Exception;
     Cliente buscarCliente(String cliente) throws NonexistentEntityException;
     List<Cliente> listaClientes() throws NonexistentEntityException;
+    List<Cliente> getClienteLike(String nombre);
     
     Vehiculo agregarVehiculo(Vehiculo vehiculo) throws PreexistingEntityException, Exception;
     Vehiculo actualizarVehiculo(Vehiculo vehiculo) throws NonexistentEntityException, Exception;

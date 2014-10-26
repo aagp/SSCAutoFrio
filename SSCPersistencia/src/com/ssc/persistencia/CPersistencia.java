@@ -109,6 +109,10 @@ public class CPersistencia {
     protected List<Cliente> listaClientes() throws NonexistentEntityException {
         return cjc.findClienteEntities();
     }
+    
+    protected List<Cliente> getClienteLike(String nombre) {
+        return cjc.getClienteLike(nombre);
+    }
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc=" Vehiculo ">

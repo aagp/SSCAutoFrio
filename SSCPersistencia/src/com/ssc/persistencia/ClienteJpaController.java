@@ -272,4 +272,12 @@ public class ClienteJpaController implements Serializable {
         }
     }
 
+    public List<Cliente> getClienteLike(String nombre) {
+        String queryString = "SELECT c FROM Cliente c WHERE LOWER(c.nombre) LIKE :nombre";
+        Query query = getEntityManager().createQuery(queryString);
+
+        query.setParameter("nombre", nombre.toLowerCase() + '%');
+        return query.getResultList();
+    }    
+    
 }
