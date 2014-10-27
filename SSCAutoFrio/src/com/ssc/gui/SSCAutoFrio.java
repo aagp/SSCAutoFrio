@@ -20,6 +20,7 @@
 //</editor-fold>
 package com.ssc.gui;
 
+//<editor-fold defaultstate="collapsed" desc=" Imports ">
 import com.ssc.excepciones.NonexistentEntityException;
 import com.ssc.excepciones.PreexistingEntityException;
 import com.ssc.interfaznegocio.INegocio;
@@ -42,6 +43,7 @@ import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
+//</editor-fold>
 
 /**
  * Class SSCAutoFrio
@@ -51,17 +53,7 @@ import javax.swing.table.DefaultTableModel;
  */
 public class SSCAutoFrio extends javax.swing.JFrame {
 
-    INegocio ne;
-    Reportes re;
-    DefaultTableModel table1, table2, table3, table4, table5, table6, table7;
-    String id, idV, idSer, desc;
-    double cant = 0.0;
-    double impor = 0.0;
-    double punit = 0.0;
-    double subt = 0.0;
-    double iva = 0.0;
-    double tot = 0.0;
-
+    //<editor-fold defaultstate="collapsed" desc=" SSCAutoFrio ">
     /**
      * Creates new form SSCAutoFrio
      */
@@ -127,7 +119,8 @@ public class SSCAutoFrio extends javax.swing.JFrame {
         });
         actualizaListas();
     }
-
+    //</editor-fold>
+    
     //<editor-fold defaultstate="collapsed" desc=" Icon/Centrar ">    
     private Image iconSSCAutoFrio() {
         Image retValue = Toolkit.getDefaultToolkit().
@@ -182,7 +175,7 @@ public class SSCAutoFrio extends javax.swing.JFrame {
         lblFolio = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         txtOrdenId = new javax.swing.JTextField();
-        jButton9 = new javax.swing.JButton();
+        btnOrdBusCli = new javax.swing.JButton();
         jButton10 = new javax.swing.JButton();
         lblNom = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
@@ -501,10 +494,10 @@ public class SSCAutoFrio extends javax.swing.JFrame {
             }
         });
 
-        jButton9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/ssc/img/find16.png"))); // NOI18N
-        jButton9.addActionListener(new java.awt.event.ActionListener() {
+        btnOrdBusCli.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/ssc/img/find16.png"))); // NOI18N
+        btnOrdBusCli.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton9ActionPerformed(evt);
+                btnOrdBusCliActionPerformed(evt);
             }
         });
 
@@ -568,14 +561,14 @@ public class SSCAutoFrio extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txtOrdenId, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton9)
+                        .addComponent(btnOrdBusCli)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton10)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel5)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(lblFolio, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 20, Short.MAX_VALUE))
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(lblNom, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
@@ -591,7 +584,7 @@ public class SSCAutoFrio extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jButton9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnOrdBusCli, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jButton10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -634,7 +627,7 @@ public class SSCAutoFrio extends javax.swing.JFrame {
                 .addGroup(TomaOrdenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, TomaOrdenLayout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGap(0, 241, Short.MAX_VALUE)
                         .addComponent(btnOrdenAceptar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnOrdenCancelar)))
@@ -652,7 +645,7 @@ public class SSCAutoFrio extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        TomaOrden.setBounds(0, 0, 460, 482);
+        TomaOrden.setBounds(0, 0, 542, 482);
         desktopPane.add(TomaOrden, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         Cotizacion.setClosable(true);
@@ -1045,7 +1038,7 @@ public class SSCAutoFrio extends javax.swing.JFrame {
             }
         });
         jScrollPane8.setViewportView(tableSer);
-        tableSer.getColumnModel().getColumn(0).setMaxWidth(100);
+        tableSer.getColumnModel().getColumn(0).setMaxWidth(120);
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -1148,7 +1141,7 @@ public class SSCAutoFrio extends javax.swing.JFrame {
                     .addGroup(jPanel7Layout.createSequentialGroup()
                         .addGap(159, 159, 159)
                         .addComponent(jLabel10)))
-                .addContainerGap(28, Short.MAX_VALUE))
+                .addContainerGap(37, Short.MAX_VALUE))
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1247,9 +1240,10 @@ public class SSCAutoFrio extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        BuscarCliente.setBounds(0, 0, 578, 383);
+        BuscarCliente.setBounds(0, 0, 587, 383);
         desktopPane.add(BuscarCliente, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
+        jToolBar1.setFloatable(false);
         jToolBar1.setRollover(true);
 
         btnMonitor.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/ssc/img/monitor24.png"))); // NOI18N
@@ -1360,6 +1354,7 @@ public class SSCAutoFrio extends javax.swing.JFrame {
         System.exit(0);
     }//GEN-LAST:event_exitMenuItemActionPerformed
 
+    //<editor-fold defaultstate="collapsed" desc=" Monitor: Actions Performed  "> 
     private void btnMonitorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMonitorActionPerformed
         if (Monitor.isVisible()) {
             Monitor.setVisible(false);
@@ -1368,7 +1363,67 @@ public class SSCAutoFrio extends javax.swing.JFrame {
             centrar(Monitor);
         }
     }//GEN-LAST:event_btnMonitorActionPerformed
+	
+    private void btnMonAgreActionPerformed(java.awt.event.ActionEvent evt) {                                           
+        if (TomaOrden.isVisible()) {
+            TomaOrden.setVisible(false);
+        } else {
+            TomaOrden.setVisible(true);
+            centrar(TomaOrden);
+            int sig = ne.lastInsert() + 1;
+            lblFolio.setText(String.valueOf(sig));
+        }
+    }                                           
+	
+    private void btnMonElimActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMonElimActionPerformed
+        try {
+            Orden o = new Orden(Integer.parseInt(id));
+            Orden buscarOrden = ne.buscarOrden(o);
+            o.setIdOrden(buscarOrden.getIdOrden());
+            o.setIdCliente(buscarOrden.getIdCliente());
+            o.setIdVehiculo(buscarOrden.getIdVehiculo());
+            ne.eliminarOrden(o);
+            JOptionPane.showMessageDialog(this, "Orden Eliminada correctamente",
+                    "Éxito", JOptionPane.INFORMATION_MESSAGE, null);
+        } catch (NonexistentEntityException ex) {
+            JOptionPane.showMessageDialog(this, "No existe la orden",
+                    "Error", JOptionPane.ERROR_MESSAGE, null);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Error en el sistema",
+                    "Error", JOptionPane.ERROR_MESSAGE, null);
+        }
+        borrarListas();
+        actualizaListas();
+    }//GEN-LAST:event_btnMonElimActionPerformed
 
+    private void btnMonCotActionPerformed(java.awt.event.ActionEvent evt) {                                          
+        pasarCotizacion();
+        borrarDet();
+        lblSub.setText("");
+        lblIva.setText("");
+        lblTot.setText("");
+        txtComentarios.setText("");
+        btnCotAce.setEnabled(true);
+    }                                          
+
+    private void btnMonCanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMonCanActionPerformed
+        estado("Cancelada");
+    }//GEN-LAST:event_btnMonCanActionPerformed
+
+    private void btnMonAceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMonAceActionPerformed
+        estado("Aceptada");
+    }//GEN-LAST:event_btnMonAceActionPerformed
+
+    private void btnMonRegACotActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMonRegACotActionPerformed
+        estado("Cotizada");
+    }//GEN-LAST:event_btnMonRegACotActionPerformed
+
+    private void btnMonLibActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMonLibActionPerformed
+	estado("Liberada");
+    }//GEN-LAST:event_btnMonLibActionPerformed
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc=" Orden: Actions Performed ">
     private void btnOrdenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOrdenActionPerformed
         if (TomaOrden.isVisible()) {
             TomaOrden.setVisible(false);
@@ -1430,48 +1485,60 @@ public class SSCAutoFrio extends javax.swing.JFrame {
         TomaOrden.setVisible(false);
     }//GEN-LAST:event_btnOrdenCancelarActionPerformed
 
-    private void btnMonAgreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMonAgreActionPerformed
-        if (TomaOrden.isVisible()) {
-            TomaOrden.setVisible(false);
-        } else {
-            TomaOrden.setVisible(true);
-            centrar(TomaOrden);
-            int sig = ne.lastInsert() + 1;
-            lblFolio.setText(String.valueOf(sig));
-        }
-    }//GEN-LAST:event_btnMonAgreActionPerformed
-
-    private void btnMonElimActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMonElimActionPerformed
+    private void txtBusCliKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBusCliKeyReleased
+        borrarBuscarClientes();
         try {
-            Orden o = new Orden(Integer.parseInt(id));
-            Orden buscarOrden = ne.buscarOrden(o);
-            o.setIdOrden(buscarOrden.getIdOrden());
-            o.setIdCliente(buscarOrden.getIdCliente());
-            o.setIdVehiculo(buscarOrden.getIdVehiculo());
-            ne.eliminarOrden(o);
-            JOptionPane.showMessageDialog(this, "Orden Eliminada correctamente",
-                    "Éxito", JOptionPane.INFORMATION_MESSAGE, null);
+            actualizaListaBuscarClientes();
         } catch (NonexistentEntityException ex) {
-            JOptionPane.showMessageDialog(this, "No existe la orden",
-                    "Error", JOptionPane.ERROR_MESSAGE, null);
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, "Error en el sistema",
-                    "Error", JOptionPane.ERROR_MESSAGE, null);
+            Logger.getLogger(SSCAutoFrio.class.getName()).log(Level.SEVERE, null, ex);
         }
-        borrarListas();
-        actualizaListas();
-    }//GEN-LAST:event_btnMonElimActionPerformed
+    }//GEN-LAST:event_txtBusCliKeyReleased
 
-    private void btnMonCotActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMonCotActionPerformed
-        pasarCotizacion();
-        borrarDet();
-        lblSub.setText("");
-        lblIva.setText("");
-        lblTot.setText("");
-        txtComentarios.setText("");
-        btnCotAce.setEnabled(true);
-    }//GEN-LAST:event_btnMonCotActionPerformed
+    private void btnBusCliActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBusCliActionPerformed
+        borrarBuscarClientes();
+        try {
+            actualizaListaBuscarClientes();
+        } catch (NonexistentEntityException ex) {
+            Logger.getLogger(SSCAutoFrio.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btnBusCliActionPerformed
 
+    private void btnBusCliCanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBusCliCanActionPerformed
+        BuscarCliente.setVisible(false);
+    }//GEN-LAST:event_btnBusCliCanActionPerformed
+
+    private void btnBusCliSelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBusCliSelActionPerformed
+        int fila = 0;
+        fila = tableBusCli.getSelectedRow();
+        if (fila < 0) {
+            JOptionPane.showMessageDialog(this, "Debe de seleccionar un cliente "
+                    + "de la lista para poder agregarlo a la toma de orden",
+                    "Error", JOptionPane.ERROR_MESSAGE, null);
+        } else {
+            txtOrdenId.setText(tableBusCli.getValueAt(fila, 0).toString());
+            buscarCliente();
+            BuscarCliente.setVisible(false);
+        }
+
+    }//GEN-LAST:event_btnBusCliSelActionPerformed
+
+    private void btnOrdBusCliActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOrdBusCliActionPerformed
+	if (BuscarCliente.isVisible()) {
+            BuscarCliente.setVisible(false);
+        } else {
+            borrarBuscarClientes();
+            BuscarCliente.setVisible(true);
+            centrar(BuscarCliente);
+            try {
+                actualizaListaBuscarClientes();
+            } catch (NonexistentEntityException ex) {
+                Logger.getLogger(SSCAutoFrio.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_btnOrdBusCliActionPerformed
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc=" Cotización: Actions Performed ">
     private void txtSerNomKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSerNomKeyReleased
         borrarServ();
         try {
@@ -1624,99 +1691,54 @@ public class SSCAutoFrio extends javax.swing.JFrame {
             actualizaListas();
         }
     }//GEN-LAST:event_btnCotAceActionPerformed
-
-    private void btnMonCanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMonCanActionPerformed
-        estado("Cancelada");
-    }//GEN-LAST:event_btnMonCanActionPerformed
-
-    private void btnMonAceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMonAceActionPerformed
-        estado("Aceptada");
-    }//GEN-LAST:event_btnMonAceActionPerformed
-
-    private void btnMonRegACotActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMonRegACotActionPerformed
-        estado("Cotizada");
-    }//GEN-LAST:event_btnMonRegACotActionPerformed
-
-    private void btnMonLibActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMonLibActionPerformed
-        estado("Liberada");
-    }//GEN-LAST:event_btnMonLibActionPerformed
-
-    private void txtBusCliKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBusCliKeyReleased
-        borrarBuscarClientes();
-        try {
-            actualizaListaBuscarClientes();
-        } catch (NonexistentEntityException ex) {
-            Logger.getLogger(SSCAutoFrio.class.getName()).log(Level.SEVERE, null, ex);
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc=" Monitor ">    
+    private void actualizaListas() {
+        List<Orden> lista1 = ne.listaEstado("Registrada");
+        List<Orden> lista2 = ne.listaEstado("Cotizada");
+        List<Orden> lista3 = ne.listaEstado("Aceptada");
+        for (Orden o : lista1) {
+            table1.addRow(new Object[]{o.getIdOrden(),
+                o.getIdCliente().getNombre() + " "
+                + o.getIdCliente().getApellidoPat(),
+                o.getIdVehiculo().getAño() + " "
+                + o.getIdVehiculo().getModelo() + " "
+                + o.getIdVehiculo().getMarca(), o.getFecha()});
         }
-    }//GEN-LAST:event_txtBusCliKeyReleased
-
-    private void btnBusCliActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBusCliActionPerformed
-        borrarBuscarClientes();
-        try {
-            actualizaListaBuscarClientes();
-        } catch (NonexistentEntityException ex) {
-            Logger.getLogger(SSCAutoFrio.class.getName()).log(Level.SEVERE, null, ex);
+        for (Orden o : lista2) {
+            table2.addRow(new Object[]{o.getIdOrden(),
+                o.getIdCliente().getNombre() + " "
+                + o.getIdCliente().getApellidoPat(),
+                o.getIdVehiculo().getAño() + " "
+                + o.getIdVehiculo().getModelo() + " "
+                + o.getIdVehiculo().getMarca(), o.getFecha()});
         }
-    }//GEN-LAST:event_btnBusCliActionPerformed
-
-    private void btnBusCliCanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBusCliCanActionPerformed
-        BuscarCliente.setVisible(false);
-    }//GEN-LAST:event_btnBusCliCanActionPerformed
-
-    private void btnBusCliSelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBusCliSelActionPerformed
-        int fila = 0;
-        fila = tableBusCli.getSelectedRow();
-        if (fila < 0) {
-            JOptionPane.showMessageDialog(this, "Debe de seleccionar un cliente "
-                    + "de la lista para poder agregarlo a la toma de orden",
-                    "Error", JOptionPane.ERROR_MESSAGE, null);
-        } else {
-            txtOrdenId.setText(tableBusCli.getValueAt(fila, 0).toString());
-            buscarCliente();
-            BuscarCliente.setVisible(false);
-        }
-
-    }//GEN-LAST:event_btnBusCliSelActionPerformed
-
-    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
-        if (BuscarCliente.isVisible()) {
-            BuscarCliente.setVisible(false);
-        } else {
-            borrarBuscarClientes();
-            BuscarCliente.setVisible(true);
-            centrar(BuscarCliente);
-            try {
-                actualizaListaBuscarClientes();
-            } catch (NonexistentEntityException ex) {
-                Logger.getLogger(SSCAutoFrio.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-    }//GEN-LAST:event_jButton9ActionPerformed
-
-    private void actualizaListaBuscarClientes() throws NonexistentEntityException {
-        String nombre = txtBusCli.getText().trim();
-        if (!nombre.equalsIgnoreCase("")) {
-            List<Cliente> lista = ne.getClienteLike(nombre);
-            for (Cliente c : lista) {
-                table7.addRow(new Object[]{c.getIdCliente(), c.getNombre(),
-                    c.getApellidoPat(), c.getApellidoMat()});
-            }
-        } else {
-            List<Cliente> lista = ne.listaClientes();
-            for (Cliente c : lista) {
-                table7.addRow(new Object[]{c.getIdCliente(), c.getNombre(),
-                    c.getApellidoPat(), c.getApellidoMat()});
-            }
+        for (Orden o : lista3) {
+            table3.addRow(new Object[]{o.getIdOrden(),
+                o.getIdCliente().getNombre() + " "
+                + o.getIdCliente().getApellidoPat(),
+                o.getIdVehiculo().getAño() + " "
+                + o.getIdVehiculo().getModelo() + " "
+                + o.getIdVehiculo().getMarca(), o.getFecha()});
         }
     }
 
-    private void borrarBuscarClientes() {
-        for (int i = 0; i < tableBusCli.getRowCount(); i++) {
-            table7.removeRow(i);
+    public void borrarListas() {
+        for (int i = 0; i < table1.getRowCount(); i++) {
+            table1.removeRow(i);
+            i--;
+        }
+        for (int i = 0; i < table2.getRowCount(); i++) {
+            table2.removeRow(i);
+            i--;
+        }
+        for (int i = 0; i < table3.getRowCount(); i++) {
+            table3.removeRow(i);
             i--;
         }
     }
-
+    
     private void estado(String estado) {
         if (id == null) {
             JOptionPane.showMessageDialog(this, "Debe de seleccionar una orden",
@@ -1742,8 +1764,70 @@ public class SSCAutoFrio extends javax.swing.JFrame {
                         "Error", JOptionPane.ERROR_MESSAGE, null);
             }
         }
+    }    
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc=" Orden ">    
+    private void buscarCliente() {
+        if (!txtOrdenId.getText().equals("")) {
+            try {
+                Cliente c = ne.buscarCliente(txtOrdenId.getText().trim());
+                lblNom.setText(c.getNombre() + " " + c.getApellidoPat() + " " + c.getApellidoMat());
+                borrarTiene();
+                cargarVehiculos(c);
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(this, "     No se encontro al Cliente", "Error", JOptionPane.ERROR_MESSAGE);
+                lblNom.setText("");
+            }
+        } else {
+            lblNom.setText("");
+        }
     }
 
+    private void cargarVehiculos(Cliente cliente) throws NonexistentEntityException {
+        List<Tiene> tiene = ne.getVehiculosPorCliente(cliente);
+        for (Tiene t : tiene) {
+            table4.addRow(new Object[]{t.getIdVehiculo().getIdVehiculo(),
+                t.getIdVehiculo().getAño() + " " + t.getIdVehiculo().getMarca()
+                + " " + t.getIdVehiculo().getModelo() + " "
+                + t.getIdVehiculo().getCilindros() + " "
+                + t.getIdVehiculo().getMotor()});
+        }
+    }
+
+    public void borrarTiene() {
+        for (int i = 0; i < tableTie.getRowCount(); i++) {
+            table4.removeRow(i);
+            i--;
+        }
+    }
+    
+    private void actualizaListaBuscarClientes() throws NonexistentEntityException {
+        String nombre = txtBusCli.getText().trim();
+        if (!nombre.equalsIgnoreCase("")) {
+            List<Cliente> lista = ne.getClienteLike(nombre);
+            for (Cliente c : lista) {
+                table7.addRow(new Object[]{c.getIdCliente(), c.getNombre(),
+                    c.getApellidoPat(), c.getApellidoMat()});
+            }
+        } else {
+            List<Cliente> lista = ne.listaClientes();
+            for (Cliente c : lista) {
+                table7.addRow(new Object[]{c.getIdCliente(), c.getNombre(),
+                    c.getApellidoPat(), c.getApellidoMat()});
+            }
+        }
+    }
+
+    private void borrarBuscarClientes() {
+        for (int i = 0; i < tableBusCli.getRowCount(); i++) {
+            table7.removeRow(i);
+            i--;
+        }
+    }    
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc=" Cotización ">
     private void pasarCotizacion() {
         if (Cotizacion.isVisible()) {
             Cotizacion.setVisible(false);
@@ -1849,90 +1933,9 @@ public class SSCAutoFrio extends javax.swing.JFrame {
         lblIva.setText(Double.toString(iva));
         lblTot.setText(Double.toString(tot));
     }
-
-    //<editor-fold defaultstate="collapsed" desc=" Registrar Orden ">    
-    private void buscarCliente() {
-        if (!txtOrdenId.getText().equals("")) {
-            try {
-                Cliente c = ne.buscarCliente(txtOrdenId.getText().trim());
-                lblNom.setText(c.getNombre() + " " + c.getApellidoPat() + " " + c.getApellidoMat());
-                borrarTiene();
-                cargarVehiculos(c);
-            } catch (Exception ex) {
-                JOptionPane.showMessageDialog(this, "     No se encontro al Cliente", "Error", JOptionPane.ERROR_MESSAGE);
-                lblNom.setText("");
-            }
-        } else {
-            lblNom.setText("");
-        }
-    }
-
-    private void cargarVehiculos(Cliente cliente) throws NonexistentEntityException {
-        List<Tiene> tiene = ne.getVehiculosPorCliente(cliente);
-        for (Tiene t : tiene) {
-            table4.addRow(new Object[]{t.getIdVehiculo().getIdVehiculo(),
-                t.getIdVehiculo().getAño() + " " + t.getIdVehiculo().getMarca()
-                + " " + t.getIdVehiculo().getModelo() + " "
-                + t.getIdVehiculo().getCilindros() + " "
-                + t.getIdVehiculo().getMotor()});
-        }
-    }
-
-    public void borrarTiene() {
-        for (int i = 0; i < tableTie.getRowCount(); i++) {
-            table4.removeRow(i);
-            i--;
-        }
-    }
     //</editor-fold>
-
-    //<editor-fold defaultstate="collapsed" desc=" Listas Monitor ">    
-    private void actualizaListas() {
-        List<Orden> lista1 = ne.listaEstado("Registrada");
-        List<Orden> lista2 = ne.listaEstado("Cotizada");
-        List<Orden> lista3 = ne.listaEstado("Aceptada");
-        for (Orden o : lista1) {
-            table1.addRow(new Object[]{o.getIdOrden(),
-                o.getIdCliente().getNombre() + " "
-                + o.getIdCliente().getApellidoPat(),
-                o.getIdVehiculo().getAño() + " "
-                + o.getIdVehiculo().getModelo() + " "
-                + o.getIdVehiculo().getMarca(), o.getFecha()});
-        }
-        for (Orden o : lista2) {
-            table2.addRow(new Object[]{o.getIdOrden(),
-                o.getIdCliente().getNombre() + " "
-                + o.getIdCliente().getApellidoPat(),
-                o.getIdVehiculo().getAño() + " "
-                + o.getIdVehiculo().getModelo() + " "
-                + o.getIdVehiculo().getMarca(), o.getFecha()});
-        }
-        for (Orden o : lista3) {
-            table3.addRow(new Object[]{o.getIdOrden(),
-                o.getIdCliente().getNombre() + " "
-                + o.getIdCliente().getApellidoPat(),
-                o.getIdVehiculo().getAño() + " "
-                + o.getIdVehiculo().getModelo() + " "
-                + o.getIdVehiculo().getMarca(), o.getFecha()});
-        }
-    }
-
-    public void borrarListas() {
-        for (int i = 0; i < table1.getRowCount(); i++) {
-            table1.removeRow(i);
-            i--;
-        }
-        for (int i = 0; i < table2.getRowCount(); i++) {
-            table2.removeRow(i);
-            i--;
-        }
-        for (int i = 0; i < table3.getRowCount(); i++) {
-            table3.removeRow(i);
-            i--;
-        }
-    }
-    //</editor-fold>
-
+    
+    //<editor-fold defaultstate="collapsed" desc=" Main ">
     /**
      * @param args the command line arguments
      */
@@ -1952,6 +1955,8 @@ public class SSCAutoFrio extends javax.swing.JFrame {
             }
         });
     }
+    //</editor-fold>
+    
     //<editor-fold defaultstate="collapsed" desc=" Variables ">    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JInternalFrame BuscarCliente;
@@ -1976,6 +1981,7 @@ public class SSCAutoFrio extends javax.swing.JFrame {
     private javax.swing.JButton btnMonLib;
     private javax.swing.JButton btnMonRegACot;
     private javax.swing.JButton btnMonitor;
+    private javax.swing.JButton btnOrdBusCli;
     private javax.swing.JButton btnOrden;
     private javax.swing.JButton btnOrdenAceptar;
     private javax.swing.JButton btnOrdenCancelar;
@@ -1991,7 +1997,6 @@ public class SSCAutoFrio extends javax.swing.JFrame {
     private javax.swing.JMenu fileMenu;
     private javax.swing.JMenu helpMenu;
     private javax.swing.JButton jButton10;
-    private javax.swing.JButton jButton9;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -2057,5 +2062,15 @@ public class SSCAutoFrio extends javax.swing.JFrame {
     private javax.swing.JTextField txtOrdenId;
     private javax.swing.JTextField txtSerNom;
     // End of variables declaration//GEN-END:variables
+    INegocio ne;
+    Reportes re;
+    DefaultTableModel table1, table2, table3, table4, table5, table6, table7;
+    String id, idV, idSer, desc;
+    double cant = 0.0;
+    double impor = 0.0;
+    double punit = 0.0;
+    double subt = 0.0;
+    double iva = 0.0;
+    double tot = 0.0;
     //</editor-fold>
 }
