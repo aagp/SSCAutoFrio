@@ -113,68 +113,7 @@ public class ClienteJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Cliente persistentCliente = em.find(Cliente.class, cliente.getIdCliente());
-            Collection<Orden> ordenCollectionOld = persistentCliente.getOrdenCollection();
-            Collection<Orden> ordenCollectionNew = cliente.getOrdenCollection();
-            Collection<Tiene> tieneCollectionOld = persistentCliente.getTieneCollection();
-            Collection<Tiene> tieneCollectionNew = cliente.getTieneCollection();
-            List<String> illegalOrphanMessages = null;
-            for (Orden ordenCollectionOldOrden : ordenCollectionOld) {
-                if (!ordenCollectionNew.contains(ordenCollectionOldOrden)) {
-                    if (illegalOrphanMessages == null) {
-                        illegalOrphanMessages = new ArrayList<String>();
-                    }
-                    illegalOrphanMessages.add("You must retain Orden " + ordenCollectionOldOrden + " since its idCliente field is not nullable.");
-                }
-            }
-            for (Tiene tieneCollectionOldTiene : tieneCollectionOld) {
-                if (!tieneCollectionNew.contains(tieneCollectionOldTiene)) {
-                    if (illegalOrphanMessages == null) {
-                        illegalOrphanMessages = new ArrayList<String>();
-                    }
-                    illegalOrphanMessages.add("You must retain Tiene " + tieneCollectionOldTiene + " since its idCliente field is not nullable.");
-                }
-            }
-            if (illegalOrphanMessages != null) {
-                throw new IllegalOrphanException(illegalOrphanMessages);
-            }
-            Collection<Orden> attachedOrdenCollectionNew = new ArrayList<Orden>();
-            for (Orden ordenCollectionNewOrdenToAttach : ordenCollectionNew) {
-                ordenCollectionNewOrdenToAttach = em.getReference(ordenCollectionNewOrdenToAttach.getClass(), ordenCollectionNewOrdenToAttach.getIdOrden());
-                attachedOrdenCollectionNew.add(ordenCollectionNewOrdenToAttach);
-            }
-            ordenCollectionNew = attachedOrdenCollectionNew;
-            cliente.setOrdenCollection(ordenCollectionNew);
-            Collection<Tiene> attachedTieneCollectionNew = new ArrayList<Tiene>();
-            for (Tiene tieneCollectionNewTieneToAttach : tieneCollectionNew) {
-                tieneCollectionNewTieneToAttach = em.getReference(tieneCollectionNewTieneToAttach.getClass(), tieneCollectionNewTieneToAttach.getIdTiene());
-                attachedTieneCollectionNew.add(tieneCollectionNewTieneToAttach);
-            }
-            tieneCollectionNew = attachedTieneCollectionNew;
-            cliente.setTieneCollection(tieneCollectionNew);
             cliente = em.merge(cliente);
-            for (Orden ordenCollectionNewOrden : ordenCollectionNew) {
-                if (!ordenCollectionOld.contains(ordenCollectionNewOrden)) {
-                    Cliente oldIdClienteOfOrdenCollectionNewOrden = ordenCollectionNewOrden.getIdCliente();
-                    ordenCollectionNewOrden.setIdCliente(cliente);
-                    ordenCollectionNewOrden = em.merge(ordenCollectionNewOrden);
-                    if (oldIdClienteOfOrdenCollectionNewOrden != null && !oldIdClienteOfOrdenCollectionNewOrden.equals(cliente)) {
-                        oldIdClienteOfOrdenCollectionNewOrden.getOrdenCollection().remove(ordenCollectionNewOrden);
-                        oldIdClienteOfOrdenCollectionNewOrden = em.merge(oldIdClienteOfOrdenCollectionNewOrden);
-                    }
-                }
-            }
-            for (Tiene tieneCollectionNewTiene : tieneCollectionNew) {
-                if (!tieneCollectionOld.contains(tieneCollectionNewTiene)) {
-                    Cliente oldIdClienteOfTieneCollectionNewTiene = tieneCollectionNewTiene.getIdCliente();
-                    tieneCollectionNewTiene.setIdCliente(cliente);
-                    tieneCollectionNewTiene = em.merge(tieneCollectionNewTiene);
-                    if (oldIdClienteOfTieneCollectionNewTiene != null && !oldIdClienteOfTieneCollectionNewTiene.equals(cliente)) {
-                        oldIdClienteOfTieneCollectionNewTiene.getTieneCollection().remove(tieneCollectionNewTiene);
-                        oldIdClienteOfTieneCollectionNewTiene = em.merge(oldIdClienteOfTieneCollectionNewTiene);
-                    }
-                }
-            }
             em.getTransaction().commit();
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
