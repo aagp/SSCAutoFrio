@@ -89,47 +89,14 @@ public class VehiculoJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Vehiculo persistentVehiculo = em.find(Vehiculo.class, vehiculo.getIdVehiculo());
-            Collection<Tiene> tieneCollectionOld = persistentVehiculo.getTieneCollection();
-            Collection<Tiene> tieneCollectionNew = vehiculo.getTieneCollection();
-            List<String> illegalOrphanMessages = null;
-            for (Tiene tieneCollectionOldTiene : tieneCollectionOld) {
-                if (!tieneCollectionNew.contains(tieneCollectionOldTiene)) {
-                    if (illegalOrphanMessages == null) {
-                        illegalOrphanMessages = new ArrayList<String>();
-                    }
-                    illegalOrphanMessages.add("You must retain Tiene " + tieneCollectionOldTiene + " since its idVehiculo field is not nullable.");
-                }
-            }
-            if (illegalOrphanMessages != null) {
-                throw new IllegalOrphanException(illegalOrphanMessages);
-            }
-            Collection<Tiene> attachedTieneCollectionNew = new ArrayList<Tiene>();
-            for (Tiene tieneCollectionNewTieneToAttach : tieneCollectionNew) {
-                tieneCollectionNewTieneToAttach = em.getReference(tieneCollectionNewTieneToAttach.getClass(), tieneCollectionNewTieneToAttach.getIdTiene());
-                attachedTieneCollectionNew.add(tieneCollectionNewTieneToAttach);
-            }
-            tieneCollectionNew = attachedTieneCollectionNew;
-            vehiculo.setTieneCollection(tieneCollectionNew);
             vehiculo = em.merge(vehiculo);
-            for (Tiene tieneCollectionNewTiene : tieneCollectionNew) {
-                if (!tieneCollectionOld.contains(tieneCollectionNewTiene)) {
-                    Vehiculo oldIdVehiculoOfTieneCollectionNewTiene = tieneCollectionNewTiene.getIdVehiculo();
-                    tieneCollectionNewTiene.setIdVehiculo(vehiculo);
-                    tieneCollectionNewTiene = em.merge(tieneCollectionNewTiene);
-                    if (oldIdVehiculoOfTieneCollectionNewTiene != null && !oldIdVehiculoOfTieneCollectionNewTiene.equals(vehiculo)) {
-                        oldIdVehiculoOfTieneCollectionNewTiene.getTieneCollection().remove(tieneCollectionNewTiene);
-                        oldIdVehiculoOfTieneCollectionNewTiene = em.merge(oldIdVehiculoOfTieneCollectionNewTiene);
-                    }
-                }
-            }
             em.getTransaction().commit();
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
-                Integer id = vehiculo.getIdVehiculo();
+                int id = vehiculo.getIdVehiculo();
                 if (findVehiculo(id) == null) {
-                    throw new NonexistentEntityException("The vehiculo with id " + id + " no longer exists.");
+                    throw new NonexistentEntityException("The cliente with id " + id + " no longer exists.");
                 }
             }
             throw ex;
@@ -213,4 +180,11 @@ public class VehiculoJpaController implements Serializable {
         }
     }
 
+    public List<Vehiculo> getVehiculoLike(String modelo) {
+        String queryString = "SELECT v FROM Vehiculo v WHERE LOWER(v.modelo) LIKE :modelo";
+        Query query = getEntityManager().createQuery(queryString);
+        query.setParameter("modelo", modelo.toLowerCase() + '%');
+        return query.getResultList();
+    }    
+    
 }

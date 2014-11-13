@@ -126,8 +126,18 @@ public class FNegocio implements INegocio {
     }
     
     @Override
+    public Vehiculo buscarVehiculo(int vehiculo) throws NonexistentEntityException {
+        return cn.buscarVehiculo(vehiculo);
+    }
+    
+    @Override
     public List<Vehiculo> listaVehiculos() throws NonexistentEntityException {
         return cn.listaVehiculos();
+    }
+    
+    @Override
+    public List<Vehiculo> getVehiculoLike(String nombre) {
+        return cn.getVehiculoLike(nombre);
     }
     //</editor-fold>
     
@@ -159,6 +169,16 @@ public class FNegocio implements INegocio {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc=" Tiene ">    
+    @Override
+    public Tiene agregarTiene(Tiene tiene) throws PreexistingEntityException, Exception {
+        return cn.agregarTiene(tiene);
+    }
+    
+    @Override
+    public Tiene eliminarTiene(Tiene tiene) throws NonexistentEntityException, Exception {
+        return cn.eliminarTiene(tiene);
+    }
+    
     @Override
     public List<Tiene> getVehiculosPorCliente(Cliente cliente) throws NonexistentEntityException {
         return cn.getVehiculosPorCliente(cliente);

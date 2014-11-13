@@ -109,9 +109,17 @@ public class CNegocio {
     protected Vehiculo eliminarVehiculo(Vehiculo vehiculo) throws NonexistentEntityException, Exception {
         return pe.eliminarVehiculo(vehiculo);
     }
+    
+    protected Vehiculo buscarVehiculo(int vehiculo) throws NonexistentEntityException {
+        return pe.buscarVehiculo(vehiculo);
+    }
 
     protected List<Vehiculo> listaVehiculos() throws NonexistentEntityException {
         return pe.listaVehiculos();
+    }
+    
+    protected List<Vehiculo> getVehiculoLike(String nombre) {
+        return pe.getVehiculoLike(nombre);
     }
     //</editor-fold>
 
@@ -137,7 +145,15 @@ public class CNegocio {
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc=" Tiene ">    
+    //<editor-fold defaultstate="collapsed" desc=" Tiene ">  
+    protected Tiene agregarTiene(Tiene tiene) throws PreexistingEntityException, Exception {
+        return pe.agregarTiene(tiene);
+    }
+    
+    protected Tiene eliminarTiene(Tiene tiene) throws NonexistentEntityException, Exception {
+        return pe.eliminarTiene(tiene);
+    }    
+    
     protected List<Tiene> getVehiculosPorCliente(Cliente cliente) throws NonexistentEntityException {
         return pe.getVehiculosPorCliente(cliente);
     }

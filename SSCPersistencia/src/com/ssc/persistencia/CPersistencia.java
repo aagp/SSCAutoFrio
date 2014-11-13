@@ -131,9 +131,16 @@ public class CPersistencia {
         return vehiculo;
     }
 
+    protected Vehiculo buscarVehiculo(int vehiculo) throws NonexistentEntityException {
+        return vjc.findVehiculo(vehiculo);
+    }
+    
     protected List<Vehiculo> listaVehiculos() throws NonexistentEntityException {
         return vjc.findVehiculoEntities();
     }
+    protected List<Vehiculo> getVehiculoLike(String nombre) {
+        return vjc.getVehiculoLike(nombre);
+    }    
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc=" Servicio ">
@@ -161,6 +168,16 @@ public class CPersistencia {
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc=" Tiene ">    
+    protected Tiene agregarTiene(Tiene tiene) throws PreexistingEntityException, Exception {
+        tjc.create(tiene);
+        return tiene;
+    }
+    
+    protected Tiene eliminarTiene(Tiene tiene) throws NonexistentEntityException, Exception {
+        tjc.destroy(tiene.getIdTiene());
+        return tiene;
+    }
+    
     protected List<Tiene> getVehiculosPorCliente(Cliente cliente) throws NonexistentEntityException {
         return tjc.getVehiculosPorCliente(cliente);
     }

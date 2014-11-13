@@ -48,7 +48,9 @@ public interface IPersistencia {
     Vehiculo agregarVehiculo(Vehiculo vehiculo) throws PreexistingEntityException, Exception;
     Vehiculo actualizarVehiculo(Vehiculo vehiculo) throws NonexistentEntityException, Exception;
     Vehiculo eliminarVehiculo(Vehiculo vehiculo) throws NonexistentEntityException, Exception;
+    Vehiculo buscarVehiculo(int vehiculo) throws NonexistentEntityException;
     List<Vehiculo> listaVehiculos() throws NonexistentEntityException;
+    List<Vehiculo> getVehiculoLike(String nombre);
     
     Servicio agregarServicio(Servicio servicio) throws PreexistingEntityException, Exception;
     Servicio actualizarServicio(Servicio servicio) throws NonexistentEntityException, Exception;
@@ -56,6 +58,8 @@ public interface IPersistencia {
     List<Servicio> listaServicios() throws NonexistentEntityException;
     List<Servicio> getServicioLike(String nombre);
     
+    Tiene agregarTiene(Tiene tiene) throws PreexistingEntityException, Exception;
+    Tiene eliminarTiene(Tiene tiene) throws NonexistentEntityException, Exception;
     List<Tiene> getVehiculosPorCliente(Cliente cliente) throws NonexistentEntityException;
     List<Detalleorden> getDetalleOrden(Orden orden) throws NonexistentEntityException;
     Detalleorden guardarDetalle(Detalleorden detalleOrden) throws PreexistingEntityException, Exception;

@@ -99,61 +99,14 @@ public class OrdenJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Orden persistentOrden = em.find(Orden.class, orden.getIdOrden());
-            Cliente idClienteOld = persistentOrden.getIdCliente();
-            Cliente idClienteNew = orden.getIdCliente();
-            Collection<Detalleorden> detalleordenCollectionOld = persistentOrden.getDetalleordenCollection();
-            Collection<Detalleorden> detalleordenCollectionNew = orden.getDetalleordenCollection();
-            List<String> illegalOrphanMessages = null;
-            for (Detalleorden detalleordenCollectionOldDetalleorden : detalleordenCollectionOld) {
-                if (!detalleordenCollectionNew.contains(detalleordenCollectionOldDetalleorden)) {
-                    if (illegalOrphanMessages == null) {
-                        illegalOrphanMessages = new ArrayList<String>();
-                    }
-                    illegalOrphanMessages.add("You must retain Detalleorden " + detalleordenCollectionOldDetalleorden + " since its idOrden field is not nullable.");
-                }
-            }
-            if (illegalOrphanMessages != null) {
-                throw new IllegalOrphanException(illegalOrphanMessages);
-            }
-            if (idClienteNew != null) {
-                idClienteNew = em.getReference(idClienteNew.getClass(), idClienteNew.getIdCliente());
-                orden.setIdCliente(idClienteNew);
-            }
-            Collection<Detalleorden> attachedDetalleordenCollectionNew = new ArrayList<Detalleorden>();
-            for (Detalleorden detalleordenCollectionNewDetalleordenToAttach : detalleordenCollectionNew) {
-                detalleordenCollectionNewDetalleordenToAttach = em.getReference(detalleordenCollectionNewDetalleordenToAttach.getClass(), detalleordenCollectionNewDetalleordenToAttach.getIdDetalle());
-                attachedDetalleordenCollectionNew.add(detalleordenCollectionNewDetalleordenToAttach);
-            }
-            detalleordenCollectionNew = attachedDetalleordenCollectionNew;
-            orden.setDetalleordenCollection(detalleordenCollectionNew);
             orden = em.merge(orden);
-            if (idClienteOld != null && !idClienteOld.equals(idClienteNew)) {
-                idClienteOld.getOrdenCollection().remove(orden);
-                idClienteOld = em.merge(idClienteOld);
-            }
-            if (idClienteNew != null && !idClienteNew.equals(idClienteOld)) {
-                idClienteNew.getOrdenCollection().add(orden);
-                idClienteNew = em.merge(idClienteNew);
-            }
-            for (Detalleorden detalleordenCollectionNewDetalleorden : detalleordenCollectionNew) {
-                if (!detalleordenCollectionOld.contains(detalleordenCollectionNewDetalleorden)) {
-                    Orden oldIdOrdenOfDetalleordenCollectionNewDetalleorden = detalleordenCollectionNewDetalleorden.getIdOrden();
-                    detalleordenCollectionNewDetalleorden.setIdOrden(orden);
-                    detalleordenCollectionNewDetalleorden = em.merge(detalleordenCollectionNewDetalleorden);
-                    if (oldIdOrdenOfDetalleordenCollectionNewDetalleorden != null && !oldIdOrdenOfDetalleordenCollectionNewDetalleorden.equals(orden)) {
-                        oldIdOrdenOfDetalleordenCollectionNewDetalleorden.getDetalleordenCollection().remove(detalleordenCollectionNewDetalleorden);
-                        oldIdOrdenOfDetalleordenCollectionNewDetalleorden = em.merge(oldIdOrdenOfDetalleordenCollectionNewDetalleorden);
-                    }
-                }
-            }
             em.getTransaction().commit();
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
-                Integer id = orden.getIdOrden();
+                int id = orden.getIdOrden();
                 if (findOrden(id) == null) {
-                    throw new NonexistentEntityException("The orden with id " + id + " no longer exists.");
+                    throw new NonexistentEntityException("The cliente with id " + id + " no longer exists.");
                 }
             }
             throw ex;

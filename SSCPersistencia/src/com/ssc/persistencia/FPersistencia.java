@@ -126,8 +126,18 @@ public class FPersistencia implements IPersistencia {
     }
     
     @Override
+    public Vehiculo buscarVehiculo(int vehiculo) throws NonexistentEntityException {
+        return cp.buscarVehiculo(vehiculo);
+    }
+    
+    @Override
     public List<Vehiculo> listaVehiculos() throws NonexistentEntityException {
         return cp.listaVehiculos();
+    }
+    
+    @Override
+    public List<Vehiculo> getVehiculoLike(String nombre) {
+        return cp.getVehiculoLike(nombre);
     }
     //</editor-fold>
     
@@ -158,7 +168,17 @@ public class FPersistencia implements IPersistencia {
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc=" Tiene ">    
+    //<editor-fold defaultstate="collapsed" desc=" Tiene "> 
+    @Override
+    public Tiene agregarTiene(Tiene tiene) throws PreexistingEntityException, Exception {
+        return cp.agregarTiene(tiene);
+    }
+    
+    @Override
+    public Tiene eliminarTiene(Tiene tiene) throws NonexistentEntityException, Exception {
+        return cp.eliminarTiene(tiene);
+    }   
+    
     @Override
     public List<Tiene> getVehiculosPorCliente(Cliente cliente) throws NonexistentEntityException {
         return cp.getVehiculosPorCliente(cliente);
