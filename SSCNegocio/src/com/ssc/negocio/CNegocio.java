@@ -136,6 +136,10 @@ public class CNegocio {
         return pe.eliminarServicio(servicio);
     }
 
+    protected Servicio buscarServicio(int servicio) throws NonexistentEntityException {
+        return pe.buscarServicio(servicio);
+    }
+    
     protected List<Servicio> listaServicios() throws NonexistentEntityException {
         return pe.listaServicios();
     }

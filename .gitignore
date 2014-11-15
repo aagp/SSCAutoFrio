@@ -20,3 +20,11 @@
 /SSCPersistencia/dist/
 /SSCNegocio/dist/
 /SSCAutoFrio/dist/
+/SSCInterfazCorreo/nbproject/private/
+/SSCInfraestructura/nbproject/private/
+/SSCInfraestructura/build/
+/SSCInterfazCorreo/build/
+/SSCInterfazInfraestructura/build/
+/SSCInterfazInfraestructura/nbproject/private/
+/SSCPruebasUnitarias/nbproject/private/
+/SSCPruebasUnitarias/build/

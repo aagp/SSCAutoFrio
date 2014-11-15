@@ -55,6 +55,7 @@ public interface IPersistencia {
     Servicio agregarServicio(Servicio servicio) throws PreexistingEntityException, Exception;
     Servicio actualizarServicio(Servicio servicio) throws NonexistentEntityException, Exception;
     Servicio eliminarServicio(Servicio servicio) throws NonexistentEntityException, Exception;
+    Servicio buscarServicio(int servicio) throws NonexistentEntityException;
     List<Servicio> listaServicios() throws NonexistentEntityException;
     List<Servicio> getServicioLike(String nombre);
     

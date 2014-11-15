@@ -20,6 +20,11 @@
 //</editor-fold>
 package com.ssc.reports;
 
+import com.ssc.infraestructura.FCorreo;
+import com.ssc.interfazcorreo.ICorreo;
+import com.ssc.interfaznegocio.INegocio;
+import com.ssc.negocio.FNegocio;
+import com.ssc.objetosnegocio.Orden;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
@@ -27,8 +32,10 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
+import javax.swing.JOptionPane;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.view.JasperViewer;
@@ -46,11 +53,15 @@ public class Reportes {
     public static final String USER = "aagp";
     public static final String PASSWORD = "9517538426";
     public static Connection con;
+    public static ICorreo co;
+    public static INegocio ne;
 
     public Reportes() {
+        co = new FCorreo();
+        ne = new FNegocio();
     }
 
-    public void generarCotizacion(String idOrden) throws ClassNotFoundException, SQLException, IOException {
+    public void generarCotizacion(String idOrden) throws ClassNotFoundException, SQLException, IOException, Exception {
         Class.forName(DRIVER);
         con = DriverManager.getConnection(RUTA, USER, PASSWORD);
         JasperPrint jasperPrint;
@@ -66,7 +77,7 @@ public class Reportes {
             //JasperViewer jasperViewer = new JasperViewer(jasperPrint);
             //jasperViewer.setVisible(false);
             JasperViewer.viewReport(jasperPrint, false);
-//            JasperExportManager.exportReportToPdfFile(jasperPrint, "D:\\Presupuesto_" + idOrden + ".pdf");
+            JasperExportManager.exportReportToPdfFile(jasperPrint, "C:\\Presupuestos\\Presupuesto_" + idOrden + ".pdf");
 //            File file = new File("D:\\Presupuesto_"+idOrden+".pdf");
 //            if (file.toString().endsWith(".pdf")) {
 //                Runtime.getRuntime().exec("rundll32 url.dll,FileProtocolHandler " + file);
@@ -76,6 +87,15 @@ public class Reportes {
 //            }
         } catch (JRException ex) {
             ex.printStackTrace();
+        }
+        Orden b = new Orden(Integer.parseInt(idOrden));
+        Orden o = ne.buscarOrden(b);
+        try {
+            co.enviarCorreo(o);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "No se pudo enviar el "
+                    + "presupuesto por correo", 
+                    "Error", JOptionPane.ERROR_MESSAGE, null);
         }
         con.close();
     }

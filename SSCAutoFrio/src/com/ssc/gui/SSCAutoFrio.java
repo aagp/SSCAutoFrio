@@ -101,6 +101,7 @@ public class SSCAutoFrio extends javax.swing.JFrame {
         table8 = (DefaultTableModel) tableCliBus.getModel();
         table9 = (DefaultTableModel) tableVeh.getModel();
         table10 = (DefaultTableModel) tableCliTie.getModel();
+        table11 = (DefaultTableModel) tableServ.getModel();
         tableCot.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -146,7 +147,7 @@ public class SSCAutoFrio extends javax.swing.JFrame {
             public void mouseClicked(MouseEvent e) {
                 int fila;
                 fila = tableTie.getSelectedRow();
-                idV = table4.getValueAt(fila, 0).toString();
+                idV = table4.getValueAt(fila, 1).toString();
             }
         });
         tableCliBus.addMouseListener(new MouseAdapter() {
@@ -173,6 +174,15 @@ public class SSCAutoFrio extends javax.swing.JFrame {
                 fila = tableVeh.getSelectedRow();
                 idVeh = Integer.parseInt(table9.getValueAt(fila, 0).toString());
                 datosVehiculo(idVeh);
+            }
+        });
+        tableServ.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int fila;
+                fila = tableServ.getSelectedRow();
+                idServ = Integer.parseInt(table11.getValueAt(fila, 0).toString());
+                datosServicio(idServ);
             }
         });
     }
@@ -350,12 +360,30 @@ public class SSCAutoFrio extends javax.swing.JFrame {
         jScrollPane11 = new javax.swing.JScrollPane();
         tableVeh = new javax.swing.JTable();
         btnVehSel = new javax.swing.JButton();
+        AdmonServicios = new javax.swing.JInternalFrame();
+        jToolBar4 = new javax.swing.JToolBar();
+        btnSerNue = new javax.swing.JButton();
+        jSeparator5 = new javax.swing.JToolBar.Separator();
+        btnSerAgr = new javax.swing.JButton();
+        txtSerAct = new javax.swing.JButton();
+        jPanel14 = new javax.swing.JPanel();
+        jLabel43 = new javax.swing.JLabel();
+        txtSerId = new javax.swing.JTextField();
+        jLabel44 = new javax.swing.JLabel();
+        txtSerDesc = new javax.swing.JTextField();
+        jLabel45 = new javax.swing.JLabel();
+        txtSerPre = new javax.swing.JTextField();
+        jPanel15 = new javax.swing.JPanel();
+        jLabel46 = new javax.swing.JLabel();
+        txtSerBus = new javax.swing.JTextField();
+        jScrollPane13 = new javax.swing.JScrollPane();
+        tableServ = new javax.swing.JTable();
         jToolBar1 = new javax.swing.JToolBar();
         btnMonitor = new javax.swing.JButton();
         btnOrden = new javax.swing.JButton();
         jSeparator3 = new javax.swing.JToolBar.Separator();
         btnClientes = new javax.swing.JButton();
-        btnVehiculos = new javax.swing.JButton();
+        btnServicios = new javax.swing.JButton();
         menuBar = new javax.swing.JMenuBar();
         fileMenu = new javax.swing.JMenu();
         openMenuItem = new javax.swing.JMenuItem();
@@ -387,6 +415,7 @@ public class SSCAutoFrio extends javax.swing.JFrame {
         Monitor.setVisible(false);
 
         tableReg.setAutoCreateRowSorter(true);
+        tableReg.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         tableReg.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -396,7 +425,7 @@ public class SSCAutoFrio extends javax.swing.JFrame {
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, true, true, true
+                false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -404,10 +433,11 @@ public class SSCAutoFrio extends javax.swing.JFrame {
             }
         });
         jScrollPane5.setViewportView(tableReg);
-        tableReg.getColumnModel().getColumn(0).setPreferredWidth(5);
+        tableReg.getColumnModel().getColumn(0).setMaxWidth(50);
         tableReg.getColumnModel().getColumn(3).setPreferredWidth(20);
 
         tableCot.setAutoCreateRowSorter(true);
+        tableCot.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         tableCot.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -417,7 +447,7 @@ public class SSCAutoFrio extends javax.swing.JFrame {
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, true, true, true
+                false, false, true, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -425,10 +455,11 @@ public class SSCAutoFrio extends javax.swing.JFrame {
             }
         });
         jScrollPane6.setViewportView(tableCot);
-        tableCot.getColumnModel().getColumn(0).setPreferredWidth(5);
+        tableCot.getColumnModel().getColumn(0).setMaxWidth(50);
         tableCot.getColumnModel().getColumn(3).setPreferredWidth(20);
 
         tableAce.setAutoCreateRowSorter(true);
+        tableAce.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         tableAce.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -438,7 +469,7 @@ public class SSCAutoFrio extends javax.swing.JFrame {
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, true, true, true
+                false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -446,7 +477,7 @@ public class SSCAutoFrio extends javax.swing.JFrame {
             }
         });
         jScrollPane4.setViewportView(tableAce);
-        tableAce.getColumnModel().getColumn(0).setPreferredWidth(5);
+        tableAce.getColumnModel().getColumn(0).setMaxWidth(50);
         tableAce.getColumnModel().getColumn(3).setPreferredWidth(20);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
@@ -648,6 +679,7 @@ public class SSCAutoFrio extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        tableTie.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         tableTie.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -670,6 +702,11 @@ public class SSCAutoFrio extends javax.swing.JFrame {
         tableTie.getColumnModel().getColumn(1).setMaxWidth(60);
 
         btnOrdenAgregaVehiculo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/ssc/img/add16.png"))); // NOI18N
+        btnOrdenAgregaVehiculo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnOrdenAgregaVehiculoActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -698,7 +735,7 @@ public class SSCAutoFrio extends javax.swing.JFrame {
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 328, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnOrdenAgregaVehiculo)
-                .addGap(0, 37, Short.MAX_VALUE))
+                .addGap(0, 14, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -770,7 +807,7 @@ public class SSCAutoFrio extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        TomaOrden.setBounds(0, 0, 492, 482);
+        TomaOrden.setBounds(0, 0, 469, 482);
         desktopPane.add(TomaOrden, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         Cotizacion.setClosable(true);
@@ -823,7 +860,7 @@ public class SSCAutoFrio extends javax.swing.JFrame {
 
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Servicios", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 12))); // NOI18N
 
-        tableDet.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        tableDet.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         tableDet.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -1145,13 +1182,13 @@ public class SSCAutoFrio extends javax.swing.JFrame {
 
         jPanel6.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        tableSer.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        tableSer.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         tableSer.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Id", "Concepto", "Precio"
+                "Id", "Descripción", "Precio"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -1163,7 +1200,8 @@ public class SSCAutoFrio extends javax.swing.JFrame {
             }
         });
         jScrollPane8.setViewportView(tableSer);
-        tableSer.getColumnModel().getColumn(0).setMaxWidth(120);
+        tableSer.getColumnModel().getColumn(0).setMaxWidth(50);
+        tableSer.getColumnModel().getColumn(2).setMaxWidth(150);
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -1291,6 +1329,7 @@ public class SSCAutoFrio extends javax.swing.JFrame {
 
         jPanel8.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
+        tableBusCli.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         tableBusCli.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -1605,7 +1644,7 @@ public class SSCAutoFrio extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(txtCliCol, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addComponent(jToolBar2, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(13, Short.MAX_VALUE))
         );
         jPanel9Layout.setVerticalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1658,7 +1697,7 @@ public class SSCAutoFrio extends javax.swing.JFrame {
         jPanel10.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Buscar", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 12), new java.awt.Color(0, 204, 204))); // NOI18N
 
         tableCliBus.setAutoCreateRowSorter(true);
-        tableCliBus.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        tableCliBus.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         tableCliBus.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -1699,7 +1738,7 @@ public class SSCAutoFrio extends javax.swing.JFrame {
             .addGroup(jPanel10Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane9)
+                    .addComponent(jScrollPane9, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addGroup(jPanel10Layout.createSequentialGroup()
                         .addComponent(jLabel35)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -1722,7 +1761,7 @@ public class SSCAutoFrio extends javax.swing.JFrame {
         jPanel13.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Vehículos del Cliente", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 12), new java.awt.Color(0, 204, 204))); // NOI18N
 
         tableCliTie.setAutoCreateRowSorter(true);
-        tableCliTie.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        tableCliTie.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         tableCliTie.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -1811,7 +1850,7 @@ public class SSCAutoFrio extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        AdmonClientes.setBounds(0, 0, 866, 647);
+        AdmonClientes.setBounds(0, 0, 863, 647);
         desktopPane.add(AdmonClientes, javax.swing.JLayeredPane.DEFAULT_LAYER);
         AdmonClientes.getAccessibleContext().setAccessibleName("AdmonClientes");
 
@@ -1953,7 +1992,7 @@ public class SSCAutoFrio extends javax.swing.JFrame {
                     .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(txtVehAn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel36)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(31, Short.MAX_VALUE))
         );
 
         jPanel12.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Buscar", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 12), new java.awt.Color(0, 204, 204))); // NOI18N
@@ -1969,7 +2008,7 @@ public class SSCAutoFrio extends javax.swing.JFrame {
         });
 
         tableVeh.setAutoCreateRowSorter(true);
-        tableVeh.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        tableVeh.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         tableVeh.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -2053,8 +2092,190 @@ public class SSCAutoFrio extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        AdmonVehiculos.setBounds(0, 0, 703, 389);
+        AdmonVehiculos.setBounds(0, 0, 703, 408);
         desktopPane.add(AdmonVehiculos, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        AdmonServicios.setClosable(true);
+        AdmonServicios.setIconifiable(true);
+        AdmonServicios.setTitle("SSCAutoFrio - Administrar Servicios");
+        AdmonServicios.setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/com/ssc/img/serv24.png"))); // NOI18N
+        AdmonServicios.setVisible(false);
+
+        jToolBar4.setFloatable(false);
+        jToolBar4.setRollover(true);
+
+        btnSerNue.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/ssc/img/new24.png"))); // NOI18N
+        btnSerNue.setToolTipText("Nuevo");
+        btnSerNue.setFocusable(false);
+        btnSerNue.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnSerNue.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnSerNue.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSerNueActionPerformed(evt);
+            }
+        });
+        jToolBar4.add(btnSerNue);
+        jToolBar4.add(jSeparator5);
+
+        btnSerAgr.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/ssc/img/add24.png"))); // NOI18N
+        btnSerAgr.setToolTipText("Agregar");
+        btnSerAgr.setFocusable(false);
+        btnSerAgr.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnSerAgr.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnSerAgr.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSerAgrActionPerformed(evt);
+            }
+        });
+        jToolBar4.add(btnSerAgr);
+
+        txtSerAct.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/ssc/img/refresh24.png"))); // NOI18N
+        txtSerAct.setToolTipText("Modificar");
+        txtSerAct.setFocusable(false);
+        txtSerAct.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        txtSerAct.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        txtSerAct.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtSerActActionPerformed(evt);
+            }
+        });
+        jToolBar4.add(txtSerAct);
+
+        jPanel14.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Datos", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 12), new java.awt.Color(0, 204, 204))); // NOI18N
+
+        jLabel43.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel43.setText("Id:");
+
+        txtSerId.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txtSerId.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txtSerId.setEnabled(false);
+
+        jLabel44.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel44.setText("Descripción:");
+
+        txtSerDesc.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+
+        jLabel45.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel45.setText("Precio:");
+
+        javax.swing.GroupLayout jPanel14Layout = new javax.swing.GroupLayout(jPanel14);
+        jPanel14.setLayout(jPanel14Layout);
+        jPanel14Layout.setHorizontalGroup(
+            jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel14Layout.createSequentialGroup()
+                .addGap(25, 25, 25)
+                .addComponent(jLabel43)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtSerId, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel44)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtSerDesc, javax.swing.GroupLayout.PREFERRED_SIZE, 317, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel45)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtSerPre, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(23, Short.MAX_VALUE))
+        );
+        jPanel14Layout.setVerticalGroup(
+            jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel14Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel43)
+                    .addComponent(txtSerId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel44)
+                    .addComponent(txtSerDesc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel45)
+                    .addComponent(txtSerPre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(20, Short.MAX_VALUE))
+        );
+
+        jPanel15.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Buscar", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 12), new java.awt.Color(0, 204, 204))); // NOI18N
+
+        jLabel46.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel46.setText("Introdusca la descripción del servicio:");
+
+        txtSerBus.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txtSerBus.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtSerBusKeyReleased(evt);
+            }
+        });
+
+        tableServ.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        tableServ.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Id", "Descripción", "Precio"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane13.setViewportView(tableServ);
+        tableServ.getColumnModel().getColumn(0).setMaxWidth(50);
+        tableServ.getColumnModel().getColumn(2).setMaxWidth(100);
+
+        javax.swing.GroupLayout jPanel15Layout = new javax.swing.GroupLayout(jPanel15);
+        jPanel15.setLayout(jPanel15Layout);
+        jPanel15Layout.setHorizontalGroup(
+            jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel15Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane13)
+                    .addGroup(jPanel15Layout.createSequentialGroup()
+                        .addComponent(jLabel46)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtSerBus, javax.swing.GroupLayout.PREFERRED_SIZE, 287, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        jPanel15Layout.setVerticalGroup(
+            jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel15Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel46)
+                    .addComponent(txtSerBus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane13, javax.swing.GroupLayout.PREFERRED_SIZE, 285, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(17, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout AdmonServiciosLayout = new javax.swing.GroupLayout(AdmonServicios.getContentPane());
+        AdmonServicios.getContentPane().setLayout(AdmonServiciosLayout);
+        AdmonServiciosLayout.setHorizontalGroup(
+            AdmonServiciosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jToolBar4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(AdmonServiciosLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(AdmonServiciosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jPanel15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        AdmonServiciosLayout.setVerticalGroup(
+            AdmonServiciosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(AdmonServiciosLayout.createSequentialGroup()
+                .addComponent(jToolBar4, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        AdmonServicios.setBounds(0, 0, 713, 541);
+        desktopPane.add(AdmonServicios, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         jToolBar1.setFloatable(false);
         jToolBar1.setRollover(true);
@@ -2096,17 +2317,17 @@ public class SSCAutoFrio extends javax.swing.JFrame {
         });
         jToolBar1.add(btnClientes);
 
-        btnVehiculos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/ssc/img/veh.png"))); // NOI18N
-        btnVehiculos.setToolTipText("Administrar Vehículos");
-        btnVehiculos.setFocusable(false);
-        btnVehiculos.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnVehiculos.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        btnVehiculos.addActionListener(new java.awt.event.ActionListener() {
+        btnServicios.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/ssc/img/serv24.png"))); // NOI18N
+        btnServicios.setToolTipText("Admonistrar Servicios");
+        btnServicios.setFocusable(false);
+        btnServicios.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnServicios.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnServicios.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnVehiculosActionPerformed(evt);
+                btnServiciosActionPerformed(evt);
             }
         });
-        jToolBar1.add(btnVehiculos);
+        jToolBar1.add(btnServicios);
 
         fileMenu.setMnemonic('f');
         fileMenu.setText("File");
@@ -2369,7 +2590,7 @@ public class SSCAutoFrio extends javax.swing.JFrame {
             String fecha;
             fecha = dateFormat.format(date);
             try {
-                Vehiculo v = new Vehiculo(Integer.parseInt(idV));
+                Vehiculo v = ne.buscarVehiculo(Integer.valueOf(idV));
                 Cliente c = ne.buscarCliente(txtOrdenId.getText().trim());
                 Orden o = new Orden(c, v, com, fecha, "Registrada");
                 ne.registrarOrden(o);
@@ -2765,37 +2986,43 @@ public class SSCAutoFrio extends javax.swing.JFrame {
     }//GEN-LAST:event_tableCliBusKeyReleased
 
     private void btnCliAgrVehActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCliAgrVehActionPerformed
-        if (AdmonVehiculos.isVisible()) {
-            AdmonVehiculos.setVisible(false);
+        if (idCli == null) {
+            JOptionPane.showMessageDialog(this, "Debe de seleccionar a un "
+                    + "cliente para poder asignar un vehículo",
+                    "Error", JOptionPane.ERROR_MESSAGE, null);
         } else {
-            AdmonVehiculos.setVisible(true);
-            centrar(AdmonVehiculos);
-            limpiarVeh();
-            borrarTabla(table9, tableVeh);
-            try {
-                actualizaListaVehiculos();
-            } catch (NonexistentEntityException ex) {
-                Logger.getLogger(SSCAutoFrio.class.getName()).log(Level.SEVERE, null, ex);
+            if (AdmonVehiculos.isVisible()) {
+                AdmonVehiculos.setVisible(false);
+            } else {
+                AdmonVehiculos.setVisible(true);
+                centrar(AdmonVehiculos);
+                limpiarVeh();
+                borrarTabla(table9, tableVeh);
+                try {
+                    actualizaListaVehiculos();
+                } catch (NonexistentEntityException ex) {
+                    Logger.getLogger(SSCAutoFrio.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         }
     }//GEN-LAST:event_btnCliAgrVehActionPerformed
 
     private void btnCliEliVehActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCliEliVehActionPerformed
-        if(idTie != 0) {
+        if (idTie != 0) {
             Cliente c = new Cliente(idCli);
             Tiene t = new Tiene(idTie);
             try {
                 ne.eliminarTiene(t);
                 JOptionPane.showMessageDialog(this, "Vehículo desasignado"
-                    + " correctamente", "Éxito", 
-                    JOptionPane.INFORMATION_MESSAGE, null);
+                        + " correctamente", "Éxito",
+                        JOptionPane.INFORMATION_MESSAGE, null);
                 borrarTabla(table10, tableCliTie);
                 cargarVehiculos(table10, c);
             } catch (NonexistentEntityException ex) {
-                JOptionPane.showMessageDialog(this, "No existe ese vehículo", 
+                JOptionPane.showMessageDialog(this, "No existe ese vehículo",
                         "Error", JOptionPane.ERROR_MESSAGE, null);
             } catch (Exception ex) {
-                JOptionPane.showMessageDialog(this, "Error en el sistema", 
+                JOptionPane.showMessageDialog(this, "Error en el sistema",
                         "Error", JOptionPane.ERROR_MESSAGE, null);
             }
         } else {
@@ -2806,22 +3033,6 @@ public class SSCAutoFrio extends javax.swing.JFrame {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc=" AdmonVehiculos: Actions Performed ">
-    private void btnVehiculosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVehiculosActionPerformed
-        if (AdmonVehiculos.isVisible()) {
-            AdmonVehiculos.setVisible(false);
-        } else {
-            AdmonVehiculos.setVisible(true);
-            centrar(AdmonVehiculos);
-            limpiarVeh();
-            borrarTabla(table9, tableVeh);
-            try {
-                actualizaListaVehiculos();
-            } catch (NonexistentEntityException ex) {
-                Logger.getLogger(SSCAutoFrio.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-    }//GEN-LAST:event_btnVehiculosActionPerformed
-
     private void btnVehNueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVehNueActionPerformed
         limpiarVeh();
     }//GEN-LAST:event_btnVehNueActionPerformed
@@ -2883,7 +3094,7 @@ public class SSCAutoFrio extends javax.swing.JFrame {
         try {
             Cliente c = ne.buscarCliente(idCli);
             Vehiculo v = ne.buscarVehiculo(idVeh);
-            Tiene t = new Tiene(c,v);
+            Tiene t = new Tiene(c, v);
             ne.agregarTiene(t);
             JOptionPane.showMessageDialog(this, "Vehículo asignado al cliente"
                     + " correctamente",
@@ -2899,6 +3110,96 @@ public class SSCAutoFrio extends javax.swing.JFrame {
             Logger.getLogger(SSCAutoFrio.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnVehSelActionPerformed
+
+    private void btnOrdenAgregaVehiculoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOrdenAgregaVehiculoActionPerformed
+        if (AdmonClientes.isVisible()) {
+            AdmonClientes.setVisible(false);
+        } else {
+            AdmonClientes.setVisible(true);
+            centrar(AdmonClientes);
+            borrarTabla(table8, tableCliBus);
+            borrarTabla(table10, tableCliTie);
+            try {
+                actualizaListaClientesBuscar();
+            } catch (NonexistentEntityException ex) {
+                Logger.getLogger(SSCAutoFrio.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_btnOrdenAgregaVehiculoActionPerformed
+    //</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc=" AdmonServicios: Actions performed ">
+    private void btnServiciosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnServiciosActionPerformed
+        if (AdmonServicios.isVisible()) {
+            AdmonServicios.setVisible(false);
+        } else {
+            AdmonServicios.setVisible(true);
+            centrar(AdmonServicios);
+            borrarTabla(table11, tableServ);
+            try {
+                actualizaListaServicios();
+            } catch (NonexistentEntityException ex) {
+                Logger.getLogger(SSCAutoFrio.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_btnServiciosActionPerformed
+
+    private void btnSerNueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSerNueActionPerformed
+        limpiarServ();
+    }//GEN-LAST:event_btnSerNueActionPerformed
+
+    private void btnSerAgrActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSerAgrActionPerformed
+        try {
+            ne.agregarServicio(insertarServicio());
+            JOptionPane.showMessageDialog(this, "Servicio Agregado"
+                    + " correctamente",
+                    "Éxito", JOptionPane.INFORMATION_MESSAGE, null);
+            limpiarServ();
+            borrarTabla(table11, tableServ);
+            try {
+                actualizaListaServicios();
+            } catch (NonexistentEntityException ex) {
+                Logger.getLogger(SSCAutoFrio.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } catch (PreexistingEntityException ex) {
+            JOptionPane.showMessageDialog(this, "Ya existe el servicio",
+                    "Error", JOptionPane.ERROR_MESSAGE, null);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Error en el sistema",
+                    "Error", JOptionPane.ERROR_MESSAGE, null);
+        }
+    }//GEN-LAST:event_btnSerAgrActionPerformed
+
+    private void txtSerActActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSerActActionPerformed
+        try {
+            ne.actualizarServicio(insertarServicio());
+            JOptionPane.showMessageDialog(this, "Servicio Actualizado"
+                    + " correctamente",
+                    "Éxito", JOptionPane.INFORMATION_MESSAGE, null);
+            limpiarServ();
+            borrarTabla(table11, tableServ);
+            try {
+                actualizaListaServicios();
+            } catch (NonexistentEntityException ex) {
+                Logger.getLogger(SSCAutoFrio.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } catch (NonexistentEntityException ex) {
+            JOptionPane.showMessageDialog(this, "No existe el servicio",
+                    "Error", JOptionPane.ERROR_MESSAGE, null);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Error en el sistema",
+                    "Error", JOptionPane.ERROR_MESSAGE, null);
+        }
+    }//GEN-LAST:event_txtSerActActionPerformed
+
+    private void txtSerBusKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSerBusKeyReleased
+        borrarTabla(table11, tableServ);
+        try {
+            actualizaListaServicios();
+        } catch (NonexistentEntityException ex) {
+            Logger.getLogger(SSCAutoFrio.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_txtSerBusKeyReleased
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc=" Monitor "> 
@@ -3004,7 +3305,7 @@ public class SSCAutoFrio extends javax.swing.JFrame {
         List<Tiene> tiene = ne.getVehiculosPorCliente(cliente);
         if (!tiene.isEmpty()) {
             for (Tiene t : tiene) {
-                table.addRow(new Object[]{t.getIdTiene(),t.getIdVehiculo().getIdVehiculo(),
+                table.addRow(new Object[]{t.getIdTiene(), t.getIdVehiculo().getIdVehiculo(),
                     t.getIdVehiculo().getAño() + " " + t.getIdVehiculo().getMarca()
                     + " " + t.getIdVehiculo().getModelo() + " "
                     + t.getIdVehiculo().getCilindros() + " "
@@ -3271,6 +3572,54 @@ public class SSCAutoFrio extends javax.swing.JFrame {
     }
     //</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc=" AdmonServicios ">
+    private void actualizaListaServicios() throws NonexistentEntityException {
+        String nombre = txtSerBus.getText().trim();
+        if (!nombre.equalsIgnoreCase("")) {
+            List<Servicio> lista = ne.getServicioLike(nombre);
+            for (Servicio s : lista) {
+                table11.addRow(new Object[]{s.getIdServicio(),
+                    s.getDescripcion(), s.getPrecio()});
+            }
+        } else {
+            List<Servicio> lista = ne.listaServicios();
+            for (Servicio s : lista) {
+                table11.addRow(new Object[]{s.getIdServicio(),
+                    s.getDescripcion(), s.getPrecio()});
+            }
+        }
+    }
+
+    private Servicio insertarServicio() {
+        Servicio s = new Servicio();
+        if (!txtSerId.getText().trim().equalsIgnoreCase("")) {
+            s.setIdServicio(Integer.parseInt(txtSerId.getText().trim()));
+        } else {
+            s.setIdServicio(0);
+        }
+        s.setDescripcion(txtSerDesc.getText().trim());
+        s.setPrecio(Double.parseDouble(txtSerPre.getText().trim()));
+        return s;
+    }
+
+    private void datosServicio(int s) {
+        try {
+            Servicio ser = ne.buscarServicio(s);
+            txtSerId.setText(ser.getIdServicio().toString().trim());
+            txtSerDesc.setText(ser.getDescripcion().trim());
+            txtSerPre.setText(ser.getPrecio().toString());
+        } catch (NonexistentEntityException ex) {
+            Logger.getLogger(SSCAutoFrio.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private void limpiarServ() {
+        txtSerId.setText("");
+        txtSerDesc.setText("");
+        txtSerPre.setText("");
+    }
+    //</editor-fold>    
+
     //<editor-fold defaultstate="collapsed" desc=" Main ">
     /**
      * @param args the command line arguments
@@ -3295,6 +3644,7 @@ public class SSCAutoFrio extends javax.swing.JFrame {
     //<editor-fold defaultstate="collapsed" desc=" Variables ">    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JInternalFrame AdmonClientes;
+    private javax.swing.JInternalFrame AdmonServicios;
     private javax.swing.JInternalFrame AdmonVehiculos;
     private javax.swing.JInternalFrame BuscarCliente;
     private javax.swing.JInternalFrame BuscarServicio;
@@ -3332,13 +3682,15 @@ public class SSCAutoFrio extends javax.swing.JFrame {
     private javax.swing.JButton btnOrdenAgregaCliente;
     private javax.swing.JButton btnOrdenAgregaVehiculo;
     private javax.swing.JButton btnOrdenCancelar;
+    private javax.swing.JButton btnSerAgr;
     private javax.swing.JButton btnSerCan;
+    private javax.swing.JButton btnSerNue;
     private javax.swing.JButton btnSerSel;
+    private javax.swing.JButton btnServicios;
     private javax.swing.JButton btnVehAct;
     private javax.swing.JButton btnVehAgr;
     private javax.swing.JButton btnVehNue;
     private javax.swing.JButton btnVehSel;
-    private javax.swing.JButton btnVehiculos;
     private javax.swing.JMenuItem contentMenuItem;
     private javax.swing.JMenuItem copyMenuItem;
     private javax.swing.JMenuItem cutMenuItem;
@@ -3385,6 +3737,10 @@ public class SSCAutoFrio extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel40;
     private javax.swing.JLabel jLabel41;
     private javax.swing.JLabel jLabel42;
+    private javax.swing.JLabel jLabel43;
+    private javax.swing.JLabel jLabel44;
+    private javax.swing.JLabel jLabel45;
+    private javax.swing.JLabel jLabel46;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
@@ -3395,6 +3751,8 @@ public class SSCAutoFrio extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel12;
     private javax.swing.JPanel jPanel13;
+    private javax.swing.JPanel jPanel14;
+    private javax.swing.JPanel jPanel15;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
@@ -3407,6 +3765,7 @@ public class SSCAutoFrio extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane10;
     private javax.swing.JScrollPane jScrollPane11;
     private javax.swing.JScrollPane jScrollPane12;
+    private javax.swing.JScrollPane jScrollPane13;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
@@ -3419,9 +3778,11 @@ public class SSCAutoFrio extends javax.swing.JFrame {
     private javax.swing.JToolBar.Separator jSeparator2;
     private javax.swing.JToolBar.Separator jSeparator3;
     private javax.swing.JToolBar.Separator jSeparator4;
+    private javax.swing.JToolBar.Separator jSeparator5;
     private javax.swing.JToolBar jToolBar1;
     private javax.swing.JToolBar jToolBar2;
     private javax.swing.JToolBar jToolBar3;
+    private javax.swing.JToolBar jToolBar4;
     private javax.swing.JLabel lblCotDir;
     private javax.swing.JLabel lblCotId;
     private javax.swing.JLabel lblCotNom;
@@ -3446,6 +3807,7 @@ public class SSCAutoFrio extends javax.swing.JFrame {
     private javax.swing.JTable tableDet;
     private javax.swing.JTable tableReg;
     private javax.swing.JTable tableSer;
+    private javax.swing.JTable tableServ;
     private javax.swing.JTable tableTie;
     private javax.swing.JTable tableVeh;
     private javax.swing.JTextField txtBusCli;
@@ -3469,7 +3831,12 @@ public class SSCAutoFrio extends javax.swing.JFrame {
     private javax.swing.JTextArea txtCom;
     private javax.swing.JTextArea txtComentarios;
     private javax.swing.JTextField txtOrdenId;
+    private javax.swing.JButton txtSerAct;
+    private javax.swing.JTextField txtSerBus;
+    private javax.swing.JTextField txtSerDesc;
+    private javax.swing.JTextField txtSerId;
     private javax.swing.JTextField txtSerNom;
+    private javax.swing.JTextField txtSerPre;
     private javax.swing.JTextField txtVehAn;
     private javax.swing.JTextField txtVehBus;
     private javax.swing.JTextField txtVehCil;
@@ -3480,10 +3847,11 @@ public class SSCAutoFrio extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
     INegocio ne;
     Reportes re;
-    DefaultTableModel table1, table2, table3, table4, table5, table6, table7, table8, table9, table10;
+    DefaultTableModel table1, table2, table3, table4, table5, table6, table7, table8, table9, table10, table11;
     String id, idV, idCli, idSer, desc;
     int idVeh = 0;
     int idTie = 0;
+    int idServ = 0;
     double cant = 0.0;
     double impor = 0.0;
     double punit = 0.0;

@@ -158,6 +158,11 @@ public class CPersistencia {
         sjc.destroy(servicio.getIdServicio());
         return servicio;
     }    
+    
+    protected Servicio buscarServicio(int servicio) throws NonexistentEntityException {
+        return sjc.findServicio(servicio);
+    }
+    
     protected List<Servicio> listaServicios() throws NonexistentEntityException {
         return sjc.findServicioEntities();
     }

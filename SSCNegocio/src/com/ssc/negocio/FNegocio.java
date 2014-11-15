@@ -158,6 +158,11 @@ public class FNegocio implements INegocio {
     }
     
     @Override
+    public Servicio buscarServicio(int servicio) throws NonexistentEntityException {
+        return cn.buscarServicio(servicio);
+    }
+    
+    @Override
     public List<Servicio> listaServicios() throws NonexistentEntityException {
         return cn.listaServicios();
     }

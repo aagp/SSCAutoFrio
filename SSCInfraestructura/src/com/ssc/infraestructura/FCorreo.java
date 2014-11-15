@@ -1,6 +1,6 @@
 //<editor-fold defaultstate="collapsed" desc=" License ">
 /*
- * @(#)NewMain.java Created on 23/10/2014, 05:21:52 PM
+ * @(#)Correo.java Created on 13/11/2014, 06:00:14 PM
  *
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
@@ -18,25 +18,30 @@
  * Copyright (C) 2014 Alan García. All rights reserved.
  */
 //</editor-fold>
-package com.ssc.reports;
 
-import java.io.IOException;
-import java.sql.SQLException;
+package com.ssc.infraestructura;
+
+import com.ssc.interfazcorreo.ICorreo;
+import com.ssc.objetosnegocio.Orden;
+import javax.mail.MessagingException;
 
 /**
- * Class NewMain
+ * Class Correo
  *
  * @author Alan García <bearz@outlook.com>
  * @version 1.0
  */
-public class NewMain {
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) throws ClassNotFoundException, SQLException, IOException, Exception {
-        Reportes co = new Reportes();
-        co.generarCotizacion("31");
+public class FCorreo implements ICorreo {
+    
+    CCorreo co;
+    
+    public FCorreo() {
+        co = new CCorreo();
+    }
+    
+    @Override
+    public void enviarCorreo(Orden orden) throws MessagingException, Exception {
+        co.enviarCotizacion(orden);
     }
     
 }

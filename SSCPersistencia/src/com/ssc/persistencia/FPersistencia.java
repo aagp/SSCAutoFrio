@@ -158,6 +158,11 @@ public class FPersistencia implements IPersistencia {
     }
     
     @Override
+    public Servicio buscarServicio(int servicio) throws NonexistentEntityException {
+        return cp.buscarServicio(servicio);
+    }
+    
+    @Override
     public List<Servicio> listaServicios() throws NonexistentEntityException {
         return cp.listaServicios();
     }

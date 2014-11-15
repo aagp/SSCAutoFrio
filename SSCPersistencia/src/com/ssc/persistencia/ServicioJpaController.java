@@ -89,47 +89,14 @@ public class ServicioJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Servicio persistentServicio = em.find(Servicio.class, servicio.getIdServicio());
-            Collection<Detalleorden> detalleordenCollectionOld = persistentServicio.getDetalleordenCollection();
-            Collection<Detalleorden> detalleordenCollectionNew = servicio.getDetalleordenCollection();
-            List<String> illegalOrphanMessages = null;
-            for (Detalleorden detalleordenCollectionOldDetalleorden : detalleordenCollectionOld) {
-                if (!detalleordenCollectionNew.contains(detalleordenCollectionOldDetalleorden)) {
-                    if (illegalOrphanMessages == null) {
-                        illegalOrphanMessages = new ArrayList<String>();
-                    }
-                    illegalOrphanMessages.add("You must retain Detalleorden " + detalleordenCollectionOldDetalleorden + " since its idServicio field is not nullable.");
-                }
-            }
-            if (illegalOrphanMessages != null) {
-                throw new IllegalOrphanException(illegalOrphanMessages);
-            }
-            Collection<Detalleorden> attachedDetalleordenCollectionNew = new ArrayList<Detalleorden>();
-            for (Detalleorden detalleordenCollectionNewDetalleordenToAttach : detalleordenCollectionNew) {
-                detalleordenCollectionNewDetalleordenToAttach = em.getReference(detalleordenCollectionNewDetalleordenToAttach.getClass(), detalleordenCollectionNewDetalleordenToAttach.getIdDetalle());
-                attachedDetalleordenCollectionNew.add(detalleordenCollectionNewDetalleordenToAttach);
-            }
-            detalleordenCollectionNew = attachedDetalleordenCollectionNew;
-            servicio.setDetalleordenCollection(detalleordenCollectionNew);
             servicio = em.merge(servicio);
-            for (Detalleorden detalleordenCollectionNewDetalleorden : detalleordenCollectionNew) {
-                if (!detalleordenCollectionOld.contains(detalleordenCollectionNewDetalleorden)) {
-                    Servicio oldIdServicioOfDetalleordenCollectionNewDetalleorden = detalleordenCollectionNewDetalleorden.getIdServicio();
-                    detalleordenCollectionNewDetalleorden.setIdServicio(servicio);
-                    detalleordenCollectionNewDetalleorden = em.merge(detalleordenCollectionNewDetalleorden);
-                    if (oldIdServicioOfDetalleordenCollectionNewDetalleorden != null && !oldIdServicioOfDetalleordenCollectionNewDetalleorden.equals(servicio)) {
-                        oldIdServicioOfDetalleordenCollectionNewDetalleorden.getDetalleordenCollection().remove(detalleordenCollectionNewDetalleorden);
-                        oldIdServicioOfDetalleordenCollectionNewDetalleorden = em.merge(oldIdServicioOfDetalleordenCollectionNewDetalleorden);
-                    }
-                }
-            }
             em.getTransaction().commit();
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
-                Integer id = servicio.getIdServicio();
+                int id = servicio.getIdServicio();
                 if (findServicio(id) == null) {
-                    throw new NonexistentEntityException("The servicio with id " + id + " no longer exists.");
+                    throw new NonexistentEntityException("The cliente with id " + id + " no longer exists.");
                 }
             }
             throw ex;

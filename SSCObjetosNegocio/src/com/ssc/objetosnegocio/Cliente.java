@@ -278,7 +278,7 @@ public class Cliente implements Serializable {
 
     @Override
     public String toString() {
-        return "com.ssc.objetosnegocio.Cliente[ idCliente=" + idCliente + " ]";
+        return idCliente;
     }
 
 }
