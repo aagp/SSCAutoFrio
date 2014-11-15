@@ -23,7 +23,6 @@ package com.ssc.infraestructura;
 
 import com.ssc.interfazcorreo.ICorreo;
 import com.ssc.objetosnegocio.Orden;
-import javax.mail.MessagingException;
 
 /**
  * Class Correo
@@ -40,7 +39,7 @@ public class FCorreo implements ICorreo {
     }
     
     @Override
-    public void enviarCorreo(Orden orden) throws MessagingException, Exception {
+    public void enviarCorreo(Orden orden) throws Exception {
         co.enviarCotizacion(orden);
     }
     

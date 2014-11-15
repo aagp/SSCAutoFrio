@@ -26,7 +26,6 @@ import javax.activation.DataHandler;
 import javax.activation.FileDataSource;
 import javax.mail.BodyPart;
 import javax.mail.Message;
-import javax.mail.MessagingException;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
@@ -45,7 +44,7 @@ public class CCorreo {
     protected CCorreo() {
     }
 
-    protected void enviarCotizacion(Orden orden) throws MessagingException, Exception {
+    protected void enviarCotizacion(Orden orden) throws Exception {
         // Propiedades de la conexión
         Properties props = new Properties();
         props.setProperty("mail.smtp.host", "smtp.gmail.com");

@@ -93,6 +93,7 @@ public class Reportes {
         try {
             co.enviarCorreo(o);
         } catch (Exception e) {
+            e.printStackTrace();
             JOptionPane.showMessageDialog(null, "No se pudo enviar el "
                     + "presupuesto por correo", 
                     "Error", JOptionPane.ERROR_MESSAGE, null);

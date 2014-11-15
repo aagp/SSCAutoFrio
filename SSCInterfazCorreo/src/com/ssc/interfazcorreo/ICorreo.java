@@ -22,7 +22,6 @@
 package com.ssc.interfazcorreo;
 
 import com.ssc.objetosnegocio.Orden;
-import com.sun.xml.internal.messaging.saaj.packaging.mime.MessagingException;
 
 /**
  * Class ICorreo
@@ -31,5 +30,5 @@ import com.sun.xml.internal.messaging.saaj.packaging.mime.MessagingException;
  * @version 1.0
  */
 public interface ICorreo {
-    void enviarCorreo(Orden orden) throws MessagingException, Exception;
+    void enviarCorreo(Orden orden) throws Exception;
 }
