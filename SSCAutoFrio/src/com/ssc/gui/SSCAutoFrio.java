@@ -98,6 +98,7 @@ public class SSCAutoFrio extends javax.swing.JFrame {
         table5 = (DefaultTableModel) tableSer.getModel();
         table6 = (DefaultTableModel) tableDet.getModel();
         table7 = (DefaultTableModel) tableBusCli.getModel();
+        tableCliBus.setAutoCreateRowSorter(true);
         table8 = (DefaultTableModel) tableCliBus.getModel();
         table9 = (DefaultTableModel) tableVeh.getModel();
         table10 = (DefaultTableModel) tableCliTie.getModel();
@@ -414,7 +415,6 @@ public class SSCAutoFrio extends javax.swing.JFrame {
         Monitor.setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/com/ssc/img/monitor24.png"))); // NOI18N
         Monitor.setVisible(false);
 
-        tableReg.setAutoCreateRowSorter(true);
         tableReg.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         tableReg.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -436,7 +436,6 @@ public class SSCAutoFrio extends javax.swing.JFrame {
         tableReg.getColumnModel().getColumn(0).setMaxWidth(50);
         tableReg.getColumnModel().getColumn(3).setPreferredWidth(20);
 
-        tableCot.setAutoCreateRowSorter(true);
         tableCot.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         tableCot.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -458,7 +457,6 @@ public class SSCAutoFrio extends javax.swing.JFrame {
         tableCot.getColumnModel().getColumn(0).setMaxWidth(50);
         tableCot.getColumnModel().getColumn(3).setPreferredWidth(20);
 
-        tableAce.setAutoCreateRowSorter(true);
         tableAce.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         tableAce.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -1644,7 +1642,7 @@ public class SSCAutoFrio extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(txtCliCol, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addComponent(jToolBar2, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(13, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel9Layout.setVerticalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1696,7 +1694,6 @@ public class SSCAutoFrio extends javax.swing.JFrame {
 
         jPanel10.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Buscar", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 12), new java.awt.Color(0, 204, 204))); // NOI18N
 
-        tableCliBus.setAutoCreateRowSorter(true);
         tableCliBus.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         tableCliBus.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -1760,7 +1757,6 @@ public class SSCAutoFrio extends javax.swing.JFrame {
 
         jPanel13.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Vehículos del Cliente", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 12), new java.awt.Color(0, 204, 204))); // NOI18N
 
-        tableCliTie.setAutoCreateRowSorter(true);
         tableCliTie.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         tableCliTie.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -1850,7 +1846,7 @@ public class SSCAutoFrio extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        AdmonClientes.setBounds(0, 0, 863, 647);
+        AdmonClientes.setBounds(0, 0, 862, 647);
         desktopPane.add(AdmonClientes, javax.swing.JLayeredPane.DEFAULT_LAYER);
         AdmonClientes.getAccessibleContext().setAccessibleName("AdmonClientes");
 
@@ -2007,7 +2003,6 @@ public class SSCAutoFrio extends javax.swing.JFrame {
             }
         });
 
-        tableVeh.setAutoCreateRowSorter(true);
         tableVeh.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         tableVeh.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -2959,8 +2954,14 @@ public class SSCAutoFrio extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCliEliActionPerformed
 
     private void btnCliBusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCliBusActionPerformed
-        idCli = txtCliId.getText().trim();
-        datosCliente(idCli);
+        if (idCli == null || idCli.equalsIgnoreCase("")) {
+            JOptionPane.showMessageDialog(this, "Debe de ingresar el Id de un "
+                    + "cliente para poder realizar la busqueda del mismo",
+                    "Error", JOptionPane.ERROR_MESSAGE, null);
+        } else {
+            idCli = txtCliId.getText().trim();
+            datosCliente(idCli);
+        }
     }//GEN-LAST:event_btnCliBusActionPerformed
 
     private void txtCliBusKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCliBusKeyReleased
@@ -2986,7 +2987,7 @@ public class SSCAutoFrio extends javax.swing.JFrame {
     }//GEN-LAST:event_tableCliBusKeyReleased
 
     private void btnCliAgrVehActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCliAgrVehActionPerformed
-        if (idCli == null) {
+        if (idCli == null || idCli.equalsIgnoreCase("")) {
             JOptionPane.showMessageDialog(this, "Debe de seleccionar a un "
                     + "cliente para poder asignar un vehículo",
                     "Error", JOptionPane.ERROR_MESSAGE, null);
